@@ -463,6 +463,30 @@ body{background:var(--bg)}
 .chart .hb-sub .hb-row{grid-template-columns:168px minmax(0,1fr) 104px}
 @container (max-width:420px){ .chart .hb-sub .hb-row{grid-template-columns:minmax(0,1fr) 104px} }
 .hb-v small{white-space:nowrap}
+
+/* matriz territorial em tabela */
+.tm{display:flex;flex-direction:column}
+.tm-row{display:grid;grid-template-columns:150px 1fr 1fr 210px;gap:18px;align-items:center;padding:12px 8px;border-top:1px solid #F0F0F0;border-radius:8px}
+.tm-row.clk{cursor:pointer}.tm-row.clk:hover{background:#FBF1EA}
+.tm-head{border-top:0;padding-top:0;font-size:11.5px;font-weight:700;color:var(--ink-2);text-transform:none}
+.tm-head small{display:block;font-weight:500;color:var(--ink-3)}
+.tm-r b{display:block;font-size:13.5px}.tm-r small{font-size:11px;color:var(--ink-3)}
+.tm-b{display:grid;grid-template-columns:1fr 34px;gap:10px;align-items:center}
+.tm-b span{font-weight:800;font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+.tm-t{position:relative;height:12px;background:#F2F2F2;border-radius:6px}
+.tm-t i{display:block;height:100%;border-radius:6px;background:#C9C9C9}
+.tm-t i.up{background:#EC0000}
+.tm-t s{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed #1F1F1F}
+.tm-q small{display:block;font-size:10.5px;color:var(--ink-3);margin-top:3px}
+.small-n .tm-t i.up{background:#F5A3A3}.small-n .tm-r b,.small-n .tm-b span{color:#8A8A8A}
+.qchip{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 10px;line-height:1.2}
+.q-hh{background:#EC0000;color:#fff}.q-hl{background:#FBF1EA;color:#990000;border:1px solid #F0B998}.q-lh{background:#F4F4F4;color:#1F1F1F;border:1px solid #D6D6D6}.q-ll{background:#fff;color:#8A8A8A;border:1px solid #E3E3E3}
+.small-n .qchip{opacity:.65}
+.tm-legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:14px;font-size:11.5px;color:var(--ink-2)}
+.tm-legend i{display:inline-block;width:18px;height:8px;border-radius:4px;margin-right:6px;vertical-align:middle}
+.lg-up{background:#EC0000}.lg-dn{background:#C9C9C9}
+.tm-legend s{display:inline-block;height:12px;border-left:2px dashed #1F1F1F;margin-right:6px;vertical-align:middle}
+@media (max-width:820px){ .tm-head{display:none} .tm-row{grid-template-columns:1fr 1fr;gap:8px 14px} .tm-r,.tm-q{grid-column:1/-1} .tm-b::before{font-size:10.5px;color:#8A8A8A;grid-column:1/-1} .tm-b{grid-template-columns:1fr 30px} .tm-row .tm-b:nth-of-type(2)::before{content:'Dependência (IDA)'} .tm-row .tm-b:nth-of-type(3)::before{content:'Propensão a financiar'} }
 </style>
 </head>
 <body>
@@ -1115,11 +1139,20 @@ R.propensao=function(m){
   var pts=REGIONS.map(function(rg){ var rr=onlyCat(ROWS,'regiao',rg), ida=mean(rr,C.ida), fin=pm(rr,'Financiar um carro'); return ida.n&&fin.n?{key:rg,label:rg.replace('Zona ',''),x:ida.mean,y:fin.mean,n:rr.length,nI:ida.n}:null; }).filter(Boolean);
   var xm=m.ida.mean||50, ym=m.finP.mean||50;
   var strong=pts.filter(function(p){return p.nI>=5&&p.x>=xm&&p.y>=ym;});
-  h+=sec('Matriz territorial de oportunidade')+'<div class="grid"><div class="card c8"><div class="card-h"><div><h3>'+(strong.length?listJoin(strong.map(function(p){return p.label==='Centro'?'Centro':'Zona '+p.label;}))+' combina'+(strong.length>1?'m':'')+' dependência e propensão acima da média':'Dependência × propensão a financiar por região')+'</h3><p class="sub">Eixo X: IDA médio · eixo Y: score de financiar · tamanho = n de respostas · linhas = média do recorte · clique para filtrar</p></div></div>'
-    +chartDiv('prMap',0,function(){ scatter('prMap',pts,{xmin:20,xmax:90,ymin:0,ymax:80,xm:xm,ym:ym,xl:'IDA médio',yl:'Propensão a financiar',minN:10,q:['Alta relevância potencial','Componente aspiracional ou de renovação','Dependência com barreiras','Menor oportunidade imediata'],aria:'Matriz territorial',onClick:function(p){setFilter('regiao',p.key);}}); })
-    +'<p class="small">Círculos tracejados = menos de 10 respostas com IDA calculável (indicativo). Entre parênteses, o n do IDA.</p></div>';
-  h+='<div class="card c4"><div class="card-h"><div><h3>Como ler os quadrantes</h3></div></div><ul class="list">'
-    +'<li><b>Alto IDA + alta propensão:</b> relevância potencial para financiamento e renovação.</li><li><b>Alto IDA + baixa propensão:</b> a dependência existe, mas outras barreiras podem limitar o crédito.</li><li><b>Baixo IDA + alta propensão:</b> possível componente aspiracional ou de renovação.</li><li><b>Baixo IDA + baixa propensão:</b> menor oportunidade imediata.</li></ul><p class="note">Associação no recorte, não causalidade territorial.</p></div></div>';
+  h+=sec('Matriz territorial de oportunidade');
+  var QL={hh:['Alta relevância potencial','dependência e propensão acima da média','q-hh'],hl:['Dependência com barreiras','depende do carro, mas propensão a financiar abaixo da média','q-hl'],lh:['Aspiracional ou renovação','propensão acima da média com dependência menor','q-lh'],ll:['Menor oportunidade imediata','dependência e propensão abaixo da média','q-ll']};
+  var tRows=pts.slice().sort(function(a,b){ var sa=(a.x>=xm?2:0)+(a.y>=ym?1:0), sb=(b.x>=xm?2:0)+(b.y>=ym?1:0); return sb-sa||b.n-a.n; }).map(function(p){
+    var q=(p.x>=xm?'h':'l')+(p.y>=ym?'h':'l'), small=p.nI<10, ql=QL[q], nm=p.key;
+    return '<div class="tm-row clk'+(small?' small-n':'')+'" tabindex="0" role="button" aria-label="'+esc(nm+': '+ql[0]+' · aplicar filtro')+'"'+ck(function(){setFilter('regiao',nm);},null)+' data-tip="'+esc(nm+' · IDA médio '+fx(p.x)+' (n = '+p.nI+') · propensão a financiar '+fx(p.y)+' (n = '+p.n+') · clique para filtrar')+'">'
+      +'<div class="tm-r"><b>'+esc(nm)+'</b><small>n = '+p.n+' · IDA n = '+p.nI+'</small></div>'
+      +'<div class="tm-b"><div class="tm-t"><i style="width:'+Math.min(100,p.x)+'%" class="'+(p.x>=xm?'up':'')+'"></i><s style="left:'+xm+'%"></s></div><span>'+fx(p.x)+'</span></div>'
+      +'<div class="tm-b"><div class="tm-t"><i style="width:'+Math.min(100,p.y)+'%" class="'+(p.y>=ym?'up':'')+'"></i><s style="left:'+ym+'%"></s></div><span>'+fx(p.y)+'</span></div>'
+      +'<div class="tm-q"><span class="qchip '+ql[2]+'">'+ql[0]+'</span>'+(small?'<small>base pequena · indicativo</small>':'')+'</div></div>';
+  }).join('');
+  h+='<div class="card"><div class="card-h"><div><h3>'+(strong.length?listJoin(strong.map(function(p){return p.key;}))+(strong.length>1?' combinam':' combina')+' dependência e propensão a financiar acima da média':'Nenhuma região com base suficiente combina dependência e propensão acima da média')+'</h3><p class="sub">Cada região comparada com a média do recorte nos dois indicadores · clique em uma região para filtrar o painel</p></div></div>'
+    +'<div class="tm"><div class="tm-row tm-head"><div>Região</div><div>Dependência do carro<small>IDA médio, 0–100</small></div><div>Propensão a financiar<small>score médio, 0–100</small></div><div>Leitura</div></div>'+tRows+'</div>'
+    +'<div class="tm-legend"><span><i class="lg-up"></i>acima da média</span><span><i class="lg-dn"></i>abaixo da média</span><span><s></s>média do recorte (IDA '+fx(xm)+' · propensão '+fx(ym)+')</span><span class="qchip q-hh">Alta relevância potencial</span><span class="qchip q-hl">Dependência com barreiras</span><span class="qchip q-lh">Aspiracional ou renovação</span><span class="qchip q-ll">Menor oportunidade imediata</span></div>'
+    +'<p class="note">Regiões com menos de 10 respostas com IDA calculável aparecem esmaecidas: o resultado é indicativo. Associação no recorte, não causalidade territorial.</p></div>';
   h+=impl(['Manter, trocar e combinar meios lideram a média; financiar tem score '+fx(m.finP.mean)+'.',
     ageMsg.replace(/<\/?b>/g,'')+' Por região, a combinação de dependência e propensão muda o tipo de oportunidade.',
     'Segmentar a oferta por renda, dependência e posse do carro, não só por idade; priorizar regiões no quadrante de alta relevância, sem tratar território como causa.']);
