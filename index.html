@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geração X | Mobilidade, Veículos e Soluções Financeiras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#EC0000; --red-d:#CC0000; --red-dd:#990000; --red-50:#FBF1EA; --red-100:#F5DECF; --mex:#EA6F5D; --rio:#F0B998;
+  --ink:#1F1F1F; --ink-2:#555; --ink-3:#8A8A8A; --line:#ECECEC;
+  --bg:#FFFFFF; --card:#FFFFFF; --green:#1E8E3E; --green-50:#E8F5EC; --amber:#B26A00;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Open Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,select{font-family:inherit}
+.app{display:flex;min-height:100vh}
+
+/* Sidebar */
+.side{width:232px;flex:0 0 232px;background:var(--red);color:#fff;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:22px 12px 16px;overflow-y:auto;z-index:30}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px 22px;font-weight:800;font-size:16px;letter-spacing:-.2px}
+.brand .bx{width:34px;height:34px;border-radius:10px;background:#fff;color:#EC0000;display:grid;place-items:center;font-size:14px;font-weight:800}.brand small{display:block;font-size:10.5px;font-weight:500;opacity:.85;letter-spacing:0;margin-top:1px}.brand{line-height:1.15}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:#fff;opacity:.92}
+.nav button:hover{background:rgba(255,255,255,.12);opacity:1}
+.nav button.on{background:#fff;color:var(--red);font-weight:700;opacity:1}
+.nav .num{width:20px;font-size:11.5px;font-weight:700;opacity:.75;text-align:right}
+
+
+.side{transition:width .22s ease,flex-basis .22s ease}
+.collapse{all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;padding:9px 12px;margin-top:14px;border-radius:10px;font-size:12.5px;font-weight:600;color:#fff;opacity:.85;border:1px solid rgba(255,255,255,.35)}
+.collapse:hover{background:rgba(255,255,255,.12);opacity:1}
+.collapse svg{transition:transform .22s}
+.side.mini{width:72px;flex-basis:72px;padding-left:10px;padding-right:10px}
+.side.mini .brand{padding:0 0 22px;justify-content:center}
+.side.mini .brand > span:not(.bx),.side.mini .nav button > span,.side.mini .side-foot,.side.mini .collapse span{display:none}
+.side.mini .nav button,.side.mini .collapse{justify-content:center;padding:10px 0}
+.side.mini .collapse svg{transform:rotate(180deg)}
+
+.side-foot{margin-top:auto;padding:16px 10px 0;font-size:11px;opacity:.8;line-height:1.5}
+
+/* Main */
+.main{flex:1;min-width:0;padding:22px 28px 40px}
+.top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.title{flex:1;min-width:260px;border-left:4px solid var(--red);padding-left:14px}
+.title h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+.title p{margin:4px 0 0;color:var(--ink-2);font-size:13px}
+.status{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--green-50);color:#185C2C;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600}
+.chip.warn{background:#FFF4E0;color:#7A4A00}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.chip.warn .dot{background:var(--amber)}
+.upd{font-size:12px;color:var(--ink-2);line-height:1.3}
+.upd b{color:var(--ink);display:block;font-size:12.5px}
+.icon-btn{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--red-50);color:var(--red)}
+.icon-btn:hover{background:var(--red-100)}
+.icon-btn.spin svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;font-weight:600;font-size:12.5px;background:var(--red);color:#fff}
+.btn:hover{background:var(--red-d)}
+.btn.ghost{background:#fff;color:var(--red);border:1.5px solid var(--red);padding:6.5px 12.5px}
+.btn.ghost:hover{background:var(--red-50)}
+
+/* Filters */
+.filters{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:10px 12px;align-items:end}
+.f{display:flex;flex-direction:column;gap:4px;min-width:0}
+.f label{font-size:11px;font-weight:700;color:var(--ink-2);text-transform:uppercase;letter-spacing:.3px}
+.f select{appearance:none;-webkit-appearance:none;border:1px solid #DADADA;border-radius:9px;padding:7px 28px 7px 10px;font-size:13px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--ink);cursor:pointer;width:100%}
+.f select.set{border-color:var(--red);background-color:var(--red-50);color:var(--red-d);font-weight:600}
+.f-actions{display:flex;gap:8px;align-items:center;justify-content:flex-end}
+.f-toggle{display:none}
+.active-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:12px;color:var(--ink-2)}
+.tag{display:inline-flex;align-items:center;gap:6px;background:var(--red-50);color:var(--red-d);padding:3px 6px 3px 10px;border-radius:999px;font-weight:600}
+.tag button{all:unset;cursor:pointer;width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:12px;line-height:1}
+.tag button:hover{background:var(--red-100)}
+
+/* Page */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:26px 0 14px;flex-wrap:wrap}
+.page-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:10px}
+.page-head h2 .n{background:var(--red);color:#fff;border-radius:8px;font-size:13px;padding:2px 8px}
+.page-head .q{color:var(--ink-2);font-size:13.5px;max-width:640px;margin:4px 0 0}
+.basepill{font-size:12px;color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;white-space:nowrap}
+.basepill b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.card{background:var(--card);border:1px solid #E6E6E6;border-radius:var(--r);padding:16px 18px;min-width:0}
+.card h3{margin:0;font-size:14.5px;font-weight:700;line-height:1.3}
+.card .sub{margin:3px 0 0;font-size:12px;color:var(--ink-3)}
+.card-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.ntag{font-size:11px;color:var(--ink-3);white-space:nowrap;padding-top:2px}
+.small{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#7A4A00;background:#FFF4E0;border-radius:6px;padding:2px 7px;margin-top:6px}
+
+.empty{display:grid;place-items:center;height:160px;color:var(--ink-3);font-size:13px;text-align:center}
+
+
+/* Charts */
+.chart{width:100%;container-type:inline-size}
+.hb{display:flex;flex-direction:column;gap:7px;padding-top:2px}
+.hb-row{display:grid;grid-template-columns:minmax(96px,40%) 1fr 52px;align-items:center;gap:10px;border-radius:8px;padding:2px 4px;margin:0 -4px}
+.hb-row.clk,.vb-c.clk,.gh-row.clk{cursor:pointer}
+.hb-row:hover,.gh-row:hover{background:#FBF1EA}
+.hb-l{font-size:12.3px;color:#333;line-height:1.3;overflow-wrap:anywhere}
+.hb-t{height:12px;background:#F3F3F3;border-radius:6px;overflow:hidden;min-width:30px}
+.hb-t i{display:block;height:100%;border-radius:6px;transition:width .35s ease}
+.hb-t.thin{height:8px}
+.hb-v{font-size:12.3px;font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+@container (max-width:330px){ .hb-row{grid-template-columns:1fr 46px;row-gap:3px} .hb-l{grid-column:1/-1} }
+.vb{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;align-items:end;padding-top:4px}
+.vb-c{display:flex;flex-direction:column;align-items:stretch;min-width:0;border-radius:8px;padding:0 2px}
+.vb-c:hover{background:#FBF1EA}
+.vb-a{height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;border-bottom:1px solid #E3E3E3}
+.vb-a i{display:block;width:min(42px,70%);border-radius:6px 6px 0 0;transition:height .35s ease}
+.vb-a.grp{flex-direction:row;align-items:flex-end;justify-content:center;gap:4px}
+.vb-g{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;flex:0 1 26px;min-width:0}
+.vb-g i{width:100%}
+.vb-v{font-size:12.3px;font-weight:700;margin-bottom:4px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.vb-v.sm{font-size:11px}
+.vb-l{font-size:11.5px;color:#444;text-align:center;line-height:1.25;padding-top:6px;overflow-wrap:anywhere;hyphens:auto}
+@container (max-width:300px){ .vb{gap:4px} .vb-l{font-size:10.5px} .vb-v{font-size:11px} }
+.dn{display:flex;align-items:center;gap:16px}
+.dn-svg{width:132px;height:132px;flex:0 0 132px}
+.dn-svg circle[data-tip]{cursor:default}
+.dn-c{font-size:15px;font-weight:800;fill:#1F1F1F;font-family:inherit}
+.dn-s{font-size:9px;fill:#8A8A8A;font-family:inherit}
+.lg-v{display:flex;flex-direction:column;gap:8px;min-width:0;flex:1}
+.lg-v .lg-i{display:grid;grid-template-columns:10px 1fr auto;gap:8px;align-items:start;font-size:12.3px;line-height:1.3}
+.lg-v .sw{margin-top:3px}
+.lg-t{overflow-wrap:anywhere;color:#333}
+@container (max-width:340px){ .dn{flex-direction:column;align-items:stretch} .dn-svg{align-self:center} }
+.lg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 10px;font-size:12px;color:#444}
+.lg .lg-i{display:inline-flex;align-items:center;gap:6px}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:0 0 10px}
+.gh{display:flex;flex-direction:column;gap:6px}
+.gh-row{display:grid;grid-template-columns:minmax(96px,32%) 1fr;gap:12px;align-items:center;padding:6px 6px;margin:0 -6px;border-radius:10px}
+.gh-row.hl{background:#FBF1EA}
+.gh-row.hl .gh-l{color:#CC0000;font-weight:800}
+.gh-l{font-size:12.5px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.gh-l small{display:block;font-weight:400;color:#8A8A8A;font-size:11px}
+.gh-b{display:flex;flex-direction:column;gap:4px;min-width:0}
+.gh-s{display:grid;grid-template-columns:1fr 46px;gap:8px;align-items:center}
+.gh-v{font-size:11.5px;font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+@container (max-width:330px){ .gh-row{grid-template-columns:1fr} }
+.ring{width:118px;height:118px;flex:0 0 118px}.ring svg{width:118px;height:118px}
+#tip{position:fixed;z-index:120;pointer-events:none;background:#fff;border:1px solid #E5E5E5;border-radius:10px;padding:7px 10px;font-size:12px;max-width:280px;box-shadow:0 4px 14px rgba(0,0,0,.1);opacity:0;transition:opacity .12s;color:#1F1F1F;line-height:1.4}
+#tip.on{opacity:1}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;gap:12px;align-items:flex-start;min-width:0}
+.kpi.cmp{flex-direction:column;gap:6px;padding:12px 14px}.kpi.cmp .ic{width:28px;height:28px;flex:0 0 28px;border-radius:8px}.kpi.cmp .ic svg{width:16px;height:16px}.kpi.cmp .vl{font-size:22px}
+.kpi .ic{width:36px;height:36px;flex:0 0 36px;border-radius:10px;background:var(--red-50);color:var(--red);display:grid;place-items:center}
+.kpi .ic svg{width:19px;height:19px}
+.kpi .lb{font-size:12px;color:var(--ink-2);line-height:1.3}
+.kpi .vl{font-size:24px;font-weight:800;letter-spacing:-.5px;line-height:1.15;margin-top:2px}
+.kpi .ft{font-size:11px;color:var(--ink-3);margin-top:1px}
+.kpi.green .ic{background:var(--green-50);color:var(--green)}
+
+/* Hero */
+.hero{grid-column:span 5;border-radius:var(--r);background:linear-gradient(135deg,#EC0000 0%,#990000 100%);color:#fff;padding:22px 24px;position:relative;overflow:hidden;min-height:220px;display:flex;flex-direction:column;justify-content:space-between}
+.hero h3{margin:0;font-size:22px;font-weight:800;line-height:1.2;max-width:360px;letter-spacing:-.3px}
+.hero p{margin:12px 0 0;font-size:13.5px;line-height:1.55;opacity:.95;max-width:470px;position:relative;z-index:1}
+.hero .sky{position:absolute;right:-10px;bottom:-4px;width:260px;opacity:.16}
+.hero .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;opacity:.8;margin-bottom:6px}
+
+/* Reading box */
+.read{grid-column:span 12;background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:var(--r);padding:14px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.read div{min-width:0}
+.read .k{font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:var(--red);margin-bottom:4px}
+.read p{margin:0;font-size:13px;color:var(--ink);line-height:1.5}
+.note{font-size:11.5px;color:var(--ink-3);margin-top:8px}
+
+/* Progress */
+.prog{display:flex;align-items:center;gap:18px}
+.prog-list{flex:1;display:grid;grid-template-columns:1fr auto;gap:5px 12px;font-size:13px}
+.prog-list span:nth-child(even){font-weight:700;text-align:right}
+.bar{height:8px;background:#F0F0F0;border-radius:99px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;background:var(--red);border-radius:99px}
+
+/* Seg control */
+.seg{display:inline-flex;background:#F2F2F2;border-radius:999px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.seg button.on{background:#fff;color:var(--red);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* Insight cards */
+.ins{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;gap:14px;min-width:0}
+.ins .ic{width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:var(--red-50);color:var(--red);display:grid;place-items:center}
+.ins h4{margin:0;font-size:13.5px;font-weight:700}
+.ins .big{font-size:26px;font-weight:800;color:var(--red);letter-spacing:-.5px;line-height:1.15;margin:3px 0 2px}
+.ins p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.ins.green .ic{background:var(--green-50);color:var(--green)}.ins.green .big{color:var(--green)}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.list li{display:block;position:relative;padding-left:17px;font-size:13px;line-height:1.5}
+.list li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--red)}
+.pillar{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.pillar .ph{background:var(--red);color:#fff;padding:11px 16px;font-weight:700;font-size:14px}
+.pillar .pb{padding:14px 16px}
+.pillar .obj{font-size:12px;color:var(--ink-2);margin-bottom:10px}
+.check{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.check li{font-size:12.8px;display:flex;gap:8px;line-height:1.45}
+.check li::before{content:"✓";color:var(--red);font-weight:800}
+.rule{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.rule .cnt{font-size:22px;font-weight:800;color:var(--red);min-width:54px;text-align:center}
+.rule .t{font-size:12.8px;line-height:1.45}
+.rule .t b{display:block;font-size:13px}
+.verdict{border-radius:var(--r);padding:18px 22px;background:linear-gradient(90deg,#fff 0%,#FBF1EA 100%);border:1px solid var(--line);display:flex;gap:18px;align-items:center}
+.verdict .lab{background:var(--red);color:#fff;border-radius:12px;padding:12px 16px;font-weight:800;font-size:15px;white-space:nowrap}
+.verdict p{margin:0;font-size:13.5px;line-height:1.6}
+
+/* Heat table */
+.heat{width:100%;border-collapse:separate;border-spacing:3px;font-size:12px}
+.heat th{font-weight:600;color:var(--ink-2);font-size:11.5px;padding:4px;text-align:center}
+.heat th.rl{text-align:left;white-space:nowrap;padding-right:8px}
+.heat.compact th{font-size:10.5px;padding:2px}.heat.compact td{padding:7px 2px;font-size:11.5px}
+.heat td{text-align:center;padding:8px 4px;border-radius:6px;font-weight:600;cursor:default}
+.scroll-x{overflow-x:auto;container-type:inline-size}
+.heat.compact{table-layout:fixed;border-spacing:2px}
+.heat.compact th.rl{width:21%;white-space:normal;line-height:1.2;padding-right:6px;vertical-align:middle}
+.heat.compact th{line-height:1.15;vertical-align:bottom}
+.heat .ls{display:none}
+@container (max-width:440px){ .heat .lf{display:none} .heat .ls{display:inline} .heat.compact th.rl{width:24%} .heat.compact th{font-size:9.5px} .heat.compact th.rl{font-size:10px} .heat.compact td{font-size:10px;padding:6px 0;border-radius:4px} }
+
+/* Toast / modal */
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#1F1F1F;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;opacity:0;transition:.25s;pointer-events:none;z-index:99}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:98;padding:20px}
+.modal.show{display:grid}
+.modal .box{background:#fff;border-radius:16px;padding:20px;max-width:520px;width:100%}
+.modal input{width:100%;padding:10px;border:1px solid #DADADA;border-radius:9px;font-size:13px;margin:10px 0 14px}
+.banner{margin-top:12px;border-radius:12px;padding:10px 14px;font-size:12.5px;background:#FFF4E0;color:#7A4A00;display:none}
+.banner.show{display:block}
+.loading{display:grid;place-items:center;height:60vh;color:var(--ink-3)}
+.mtop{display:none}
+
+/* Responsive */
+@media (max-width:1180px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .c3,.c4,.c5{grid-column:span 6}.c7,.c8{grid-column:span 12}.hero{grid-column:span 12}
+}
+@media (max-width:820px){
+  .collapse{display:none}
+  .side.mini{width:232px;flex-basis:auto;padding:22px 12px 16px}
+  .side.mini .brand > span:not(.bx),.side.mini .nav button > span,.side.mini .side-foot{display:revert}
+  .side.mini .nav button{justify-content:flex-start;padding:9px 12px}
+  .side{position:fixed;left:0;top:0;transform:translateX(-100%);transition:.25s;box-shadow:8px 0 30px rgba(0,0,0,.2)}
+  .side.open{transform:none}
+  .mtop{display:flex;align-items:center;justify-content:space-between;background:var(--red);color:#fff;padding:10px 14px;position:sticky;top:0;z-index:20}
+  .mtop .brand{padding:0;font-size:17px}
+  .mtop button{all:unset;cursor:pointer;padding:6px}
+  .app{flex-direction:column}
+  .main{padding:14px 14px 40px}
+  .title h1{font-size:18px}
+  .c3,.c4,.c5,.c6,.c7,.c8,.c12,.hero{grid-column:span 12}
+  .read{grid-template-columns:1fr}
+  .f-toggle{display:inline-flex}
+  .filters .f{display:none;min-width:calc(50% - 6px)}
+  .filters.open .f{display:flex}
+  .filters{display:flex;flex-wrap:wrap;justify-content:space-between}
+  .status .upd{display:none}
+  .verdict{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:480px){ .kpis{grid-template-columns:1fr 1fr;gap:10px} .kpi{padding:12px;flex-direction:column;gap:8px} .kpi .vl{font-size:21px} }
+
+/* ===== Revisão executiva ===== */
+:root{--bg:#F5F5F6}
+body{background:var(--bg)}
+.main{padding:18px 28px 48px;max-width:1480px}
+.top{align-items:center}
+.title{border-left:3px solid var(--red);padding-left:12px}
+.title h1{font-size:19px}
+.title p{font-size:12.5px;margin-top:2px}
+.status{gap:14px}
+.chip small{font-weight:500;opacity:.8}
+.upd{font-size:11px;color:var(--ink-3)}
+.upd b{font-size:12.5px;color:var(--ink)}
+.btn.ghost{border-width:1px}
+.btn.sm{padding:6px 12px;font-size:12.5px}
+.filters{display:block!important;margin-top:14px;padding:0;background:transparent;border:0}
+.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:8px 10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
+.muted{font-size:12px;color:var(--ink-3)}
+.lnk{all:unset;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--red-d);padding:4px 6px;border-radius:6px}
+.lnk:disabled{color:#BBB;cursor:default}
+.fpanel{display:none;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 12px;background:#fff;border:1px solid #E8E8E8;border-top:0;border-radius:0 0 12px 12px;padding:12px 14px;margin-top:-8px;padding-top:18px}
+.filters.open .fpanel{display:grid}
+.filters .f{display:flex!important;min-width:0}
+.f-toggle{display:inline-flex}
+.page-head{margin:24px 0 6px}
+.page-head .q{margin:0;font-size:12px;font-weight:700;color:var(--red-d);text-transform:uppercase;letter-spacing:.6px;display:flex;gap:10px;align-items:center}
+.page-head .q .n{background:transparent;color:var(--ink-3);padding:0;font-size:12px}
+.page-head h2{font-size:22px;font-weight:800;margin:4px 0 0;letter-spacing:-.3px;display:block}
+.headline{font-size:16px;line-height:1.5;color:var(--ink);margin:4px 0 18px;max-width:980px;font-weight:500}
+.headline b{font-weight:700}
+.kpis{display:grid;gap:12px;margin-bottom:16px}
+.kpis.k3{grid-template-columns:repeat(3,1fr)}.kpis.k4{grid-template-columns:repeat(4,1fr)}.kpis.k8{grid-template-columns:repeat(4,1fr)}
+.kpi{display:block;padding:14px 16px;border:1px solid #E8E8E8;border-radius:12px;background:#fff}
+.kpi .lb{font-size:12px;color:var(--ink-2)}
+.kpi .vl{font-size:24px;font-weight:800;margin-top:4px;letter-spacing:-.4px;line-height:1.15;overflow-wrap:anywhere}
+.kpi .ft{font-size:11px;color:var(--ink-3);margin-top:3px}
+.kpi.green .vl{color:#1E8E3E}
+.kpi.accent{border-color:#EC0000;box-shadow:inset 3px 0 0 #EC0000}
+.kpi.accent .vl{color:#CC0000}
+.sec{font-size:11px;text-transform:uppercase;letter-spacing:.9px;color:var(--ink-3);font-weight:700;margin:26px 0 10px}
+.grid{gap:12px}
+.card{border:1px solid #E8E8E8;border-radius:12px;padding:16px 18px}
+.card h3{font-size:14px}
+.card .sub{font-size:11.8px;line-height:1.4}
+.small{font-size:11px;color:var(--ink-3);background:none;padding:0;margin:4px 0 0;font-style:italic}
+.banner{background:#fff;border:1px solid #E8E8E8;color:var(--ink-2);font-size:12px}
+.hero{display:block;grid-column:auto;min-height:0;background:#fff;color:var(--ink);border:1px solid #E8E8E8;border-left:3px solid var(--red);border-radius:12px;padding:20px 24px;margin-bottom:14px}
+.hero .eyebrow{color:var(--red-d);opacity:1;font-size:11px;letter-spacing:.8px}
+.hero-t{font-size:18px;line-height:1.55;margin:8px 0 0;max-width:1000px}
+.hero-t b{color:var(--ink)}
+.ins h4,.fcard h4{margin:0;font-size:13px;font-weight:700;color:var(--ink)}
+.ins .big,.fcard .big,.callout .big{font-size:28px;font-weight:800;color:var(--red-d);letter-spacing:-.5px;margin:6px 0 4px;line-height:1.1}
+.ins p,.fcard p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.fcard.green .big{color:#1E8E3E}
+.bar.big{height:10px;margin:14px 0 14px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.stats div{display:flex;flex-direction:column}
+.stats b{font-size:18px;font-weight:800}
+.stats b.red{color:var(--red-d)}
+.stats span{font-size:10.5px;color:var(--ink-3);line-height:1.2}
+.stack{display:flex;flex-direction:column;gap:12px}
+.mini-sep{height:1px;background:#EFEFEF;margin:14px 0 12px}
+.hb-v{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15}
+.hb-v small{font-weight:500;font-size:10.5px;color:var(--ink-3)}
+.chart .hb-row{grid-template-columns:168px minmax(0,1fr) 62px;grid-template-areas:'l t v'}
+.chart .hb-l{grid-area:l}.chart .hb-t{grid-area:t}.chart .hb-v{grid-area:v}
+@container (max-width:420px){ .chart .hb-row{grid-template-columns:minmax(0,1fr) 62px;grid-template-areas:'l l' 't v';row-gap:4px} }
+.side-lbl{font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--red-d);margin-bottom:6px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.duo div{background:#F7F7F7;border-radius:10px;padding:10px 12px;font-size:12.3px;line-height:1.45}
+.duo div.dark{background:#FBF1EA}
+.duo span{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-3);margin-bottom:2px}
+.callout{display:flex;flex-direction:column;justify-content:center;border-left:3px solid var(--red)}
+.callout .eyebrow{font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-3)}
+.callout .big{font-size:44px}
+.callout p{margin:0 0 6px;font-size:13.5px;line-height:1.5}
+.impl{background:#fff;border:1px solid #E8E8E8;border-left:3px solid var(--red);border-radius:12px;padding:16px 20px;margin-top:18px}
+.impl-h{font-size:13.5px;font-weight:800;margin-bottom:10px}
+.impl-g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.impl .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;font-weight:800;color:var(--red-d);margin-bottom:3px}
+.impl p{margin:0;font-size:13px;line-height:1.5}
+.find{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pairs{display:flex;flex-direction:column}
+.pair{display:grid;grid-template-columns:minmax(160px,30%) 24px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #F0F0F0;align-items:center;font-size:13px;line-height:1.45}
+.pair:last-child{border-bottom:0}
+.pair .pa{font-weight:700}
+.pair .arrow{color:var(--red);font-weight:800}
+.pillar{padding:0;overflow:hidden}
+.pillar .ph{background:transparent;color:var(--red-d);padding:16px 18px 0;font-size:15px;font-weight:800}
+.pillar .obj{padding:2px 18px 10px;font-size:12px;color:var(--ink-3)}
+.pillar .check{padding:0 18px 16px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 14px}
+.flow span{border:1px solid #E3E3E3;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600}
+.flow span.on{border-color:var(--red);color:var(--red-d);background:#FBF1EA}
+.flow i{font-style:normal;color:var(--ink-3);font-weight:700}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rule{border:1px solid #EDEDED;border-radius:10px;padding:12px}
+.rule .cnt{font-size:20px;min-width:40px}
+.measure{margin-top:12px;font-size:12.5px;color:var(--ink-2);background:#F7F7F7;border-radius:10px;padding:10px 12px}
+.verdict{margin-top:18px;background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px 20px}
+.verdict .lab{background:transparent;color:var(--red-d);border:1.5px solid var(--red);padding:8px 12px;font-size:13px;border-radius:10px;white-space:normal;max-width:180px;text-align:center}
+.card.ins{display:block}
+.empty-state{text-align:center;padding:40px 20px}.empty-state .btn{margin-top:14px}
+:focus-visible{outline:2px solid #EC0000;outline-offset:2px;border-radius:6px}
+.nav button:focus-visible{outline-color:#fff}
+@media (max-width:1180px){ .kpis.k4,.kpis.k8{grid-template-columns:repeat(2,1fr)} .find{grid-template-columns:repeat(2,1fr)} .rules{grid-template-columns:1fr} .impl-g{grid-template-columns:1fr;gap:10px} }
+@media (max-width:820px){ .status .upd{display:none} .status .upd.base{display:block} .fbar .muted{display:none} .kpis.k3{grid-template-columns:1fr 1fr} .kpis.k3 .kpi:first-child{grid-column:1/-1} .find{grid-template-columns:1fr} .pair{grid-template-columns:1fr;gap:2px} .pair .arrow{display:none} .duo{grid-template-columns:1fr} .stats{grid-template-columns:repeat(3,1fr);row-gap:10px} .hero-t{font-size:16px} .page-head h2{font-size:19px} .filters .f{min-width:0} .fpanel{grid-template-columns:1fr 1fr} }
+
+/* ===== v5: cruzamentos ===== */
+.gapviz{margin-top:16px;max-width:760px;display:flex;flex-direction:column;gap:8px}
+.gv-row{display:grid;grid-template-columns:170px 1fr 52px;gap:12px;align-items:center;font-size:13px}
+.gv-row b{font-size:18px;text-align:right}
+.gv-t{height:14px;background:#F2F2F2;border-radius:7px;overflow:hidden}.gv-t i{display:block;height:100%;border-radius:7px}
+.gv-gap{font-size:13px;color:var(--ink-2);margin-top:4px;line-height:1.5}
+.guide{background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:16px 20px;margin-bottom:14px}
+.guide-k{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-3)}
+.guide p{margin:6px 0 12px;font-size:16px;line-height:1.5;font-weight:600}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:11.5px}
+.chain span{background:#F4F4F4;border-radius:999px;padding:4px 10px;font-weight:600;color:var(--ink-2)}
+.chain span.on{background:#FBF1EA;color:var(--red-d)}
+.chain i{font-style:normal;color:#BBB;font-weight:700}
+.chain.big{margin:-4px 0 16px;font-size:12.5px}
+.rcard{display:flex;flex-direction:column}
+.rc-b{display:flex;gap:14px;align-items:baseline;margin:2px 0 12px}
+.rc-b .big{font-size:32px;font-weight:800;color:var(--red-d);letter-spacing:-.5px;flex:0 0 auto}
+.rc-b p{margin:0;font-size:13px;color:var(--ink-2);line-height:1.5}
+.rc-m{margin-top:auto;background:#FBF1EA;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.5}
+.rc-m span{display:block;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--red-d);margin-bottom:2px}
+.ctab{width:100%;border-collapse:collapse;font-size:12.5px}
+.ctab th{font-weight:700;text-align:center;padding:6px 8px;font-size:12px;color:var(--ink);vertical-align:bottom}
+.ctab th small{display:block;font-weight:500;color:var(--ink-3);font-size:10.5px}
+.ctab th.rl{text-align:left;font-weight:600;color:var(--ink);padding-left:0;min-width:120px}
+.ctab th.rl small{display:inline;margin-left:6px}
+.ctab tbody tr{border-top:1px solid #F0F0F0}
+.ctab td{padding:8px;text-align:center;vertical-align:middle}
+.ctab .cv{display:block;font-weight:700;font-variant-numeric:tabular-nums}
+.ctab .cb{display:block;height:4px;background:#F2F2F2;border-radius:2px;margin:4px auto 0;max-width:80px;overflow:hidden}
+.ctab .cb i{display:block;height:100%;background:#C9C9C9}
+.ctab td.best .cv{color:var(--red-d)}.ctab td.best .cb i{background:var(--red)}
+.ctab td.best{background:#FBF1EA}
+.ctab th.rl{vertical-align:middle}
+.read-line{margin:12px 0 0;font-size:13px;line-height:1.55;background:#F7F7F7;border-radius:10px;padding:10px 12px}
+.ibox{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px;border-top:1px solid #F0F0F0;padding-top:12px}
+.ibox.one{grid-template-columns:1fr}
+.ibox span{display:block;font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--red-d);margin-bottom:2px}
+.ibox p{margin:0;font-size:13px;line-height:1.5}
+.stackbar{display:flex;height:16px;border-radius:8px;overflow:hidden;gap:2px;margin:6px 0 14px}
+.stackbar i{display:block;height:100%}
+.acc3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.acc3 > div{background:#FAFAFA;border-radius:10px;padding:10px 12px;font-size:12px}
+.acc3 b{font-size:12px}.acc3 .sw{margin-right:6px;vertical-align:-1px}
+.acc3 .big{font-size:24px;font-weight:800;margin:4px 0 2px}
+.acc3 p{margin:0;color:var(--ink-3);line-height:1.4}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.facts div{background:#F7F7F7;border-radius:8px;padding:8px 10px}
+.facts span{display:block;font-size:10.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.facts b{font-size:12.5px}
+.facts.sm{gap:6px}.facts.sm b{font-size:12px}
+.quad{display:grid;grid-template-columns:22px 1fr;grid-template-rows:1fr auto;gap:6px}
+.qy{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11.5px;color:var(--ink-2);text-align:center;grid-row:1}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qx{grid-column:2;text-align:center;font-size:11.5px;color:var(--ink-2)}
+.qc{border:1px solid #EDEDED;border-radius:10px;padding:12px;background:#FAFAFA}
+.qc.hot{background:#FBF1EA;border-color:#EC0000}
+.qn{font-size:24px;font-weight:800;letter-spacing:-.4px}.qc.hot .qn{color:var(--red-d)}
+.qn small{font-size:11px;font-weight:500;color:var(--ink-3);margin-left:6px}
+.qt{font-weight:700;font-size:13px;margin-top:2px}.qd{font-size:11.5px;color:var(--ink-3)}
+.pack{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pack span{border:1px solid #DDEFE2;background:#F3FAF5;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:600;display:flex;flex-direction:column}
+.pack span b{color:#1E8E3E;font-size:17px}
+.pack i{font-style:normal;color:#9CC9A8;font-weight:800}
+.fcard .ev{font-size:15px;font-weight:800;color:var(--red-d);margin:6px 0 4px;line-height:1.3}
+.fcard.green .ev{color:#1E8E3E}
+.segs,.recs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.segc h4,.rec h4{margin:0;font-size:14px}
+.segc .big{font-size:28px;font-weight:800;color:var(--red-d);margin:6px 0 2px}
+.segc.green .big{color:#1E8E3E}
+.segc .big small{font-size:11px;color:var(--ink-3);font-weight:500;margin-left:6px}
+.rec dl{margin:10px 0 0;display:grid;grid-template-columns:62px 1fr;gap:6px 8px;font-size:12.5px;line-height:1.45}
+.rec dt{font-weight:800;color:var(--red-d)}.rec dd{margin:0}
+.rules.four{grid-template-columns:repeat(2,1fr)}
+.kgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.kgrid div{background:#fff;border:1px solid #E8E8E8;border-radius:12px;padding:12px}
+.kgrid span{display:block;font-size:10.5px;font-weight:800;color:var(--red-d);text-transform:uppercase;letter-spacing:.5px}
+.kgrid b{font-size:12.5px;font-weight:600;line-height:1.4;display:block;margin-top:4px}
+.sc{width:100%;height:auto;display:block}
+.sc g.clk{cursor:pointer}
+.impl .impl-g{grid-template-columns:repeat(3,1fr)}
+@media (max-width:1180px){ .segs,.recs{grid-template-columns:repeat(2,1fr)} .kgrid{grid-template-columns:repeat(4,1fr)} .acc3{grid-template-columns:1fr} .ibox{grid-template-columns:1fr} }
+@media (max-width:820px){ .segs,.recs,.rules.four{grid-template-columns:1fr} .kgrid{grid-template-columns:1fr 1fr} .gv-row{grid-template-columns:110px 1fr 44px} .guide p{font-size:14.5px} .rc-b{flex-direction:column;gap:4px} .impl .impl-g{grid-template-columns:1fr} }
+
+/* v6: cabeçalho enxuto */
+#syncChip,.status .upd{display:none!important}
+.status{display:none}
+.fbar-act{display:flex;gap:8px;align-items:center;margin-left:4px}
+.fbar-act .btn{padding:6px 12px;font-size:12.5px}
+.top{margin-bottom:4px}
+@media (max-width:820px){ .fbar-act .btn{font-size:0;gap:0;padding:7px 9px} .fbar-act .btn svg{margin:0} }
+.chart .hb-sub .hb-row{grid-template-columns:168px minmax(0,1fr) 104px}
+@container (max-width:420px){ .chart .hb-sub .hb-row{grid-template-columns:minmax(0,1fr) 104px} }
+.hb-v small{white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="mtop">
+  <div class="brand"><span class="bx">GX</span><span>Geração X<small>Projeto de Intervenção III</small></span></div>
+  <button id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+</div>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="brand"><span class="bx">GX</span><span>Geração X<small>Projeto de Intervenção III</small></span></div>
+    <nav class="nav" id="nav"></nav>
+    <button class="collapse" id="collapseBtn" title="Recolher menu" aria-label="Recolher menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg><span>Recolher menu</span></button>
+    <div class="side-foot">Pesquisa acadêmica para o desafio Santander · pessoas de 45 a 61 anos no município de São Paulo</div>
+  </aside>
+  <main class="main">
+    <div class="top">
+      <div class="title">
+        <h1>Geração X: Mobilidade, Veículos e Soluções Financeiras</h1>
+        <p>Dashboard analítico da pesquisa com pessoas de 45 a 61 anos residentes no município de São Paulo</p>
+      </div>
+      <div class="status">
+        <span class="chip" id="syncChip"><span class="dot"></span><span id="syncTxt">Conectando…</span></span>
+        <div class="upd">Última atualização<b id="updTxt">—</b></div>
+        <div class="upd base">Base filtrada<b id="baseTxt">—</b></div>
+        <button class="icon-btn" id="refreshBtn" title="Atualizar agora" aria-label="Atualizar agora"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+        <button class="btn ghost" id="shareBtn" aria-label="Compartilhar dashboard"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>Compartilhar</button>
+      </div>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="banner" id="banner"></div>
+    <div id="page"><div class="loading">Carregando dados da planilha…</div></div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<div id="tip"></div>
+<div class="modal" id="modal"><div class="box"><h3 style="margin:0">Compartilhar dashboard</h3><p style="margin:6px 0 0;font-size:13px;color:#555">Copie o link abaixo e envie.</p><input id="shareInput" readonly><div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" id="closeModal">Fechar</button><button class="btn" id="copyModal">Copiar link</button></div></div></div>
+
+<script>
+
+/* ====== CONFIGURAÇÃO ======
+   Cole abaixo, entre as aspas, o link de dados:
+   - CSV publicado da aba Base tratada (Arquivo > Compartilhar > Publicar na Web > CSV), ou
+   - link /exec do Apps Script seguido de ?format=json
+*/
+window.DATA_URL='https://docs.google.com/spreadsheets/d/1qsGse7_xSHFqSBdXnor1TMzonn69zG8dFJUaCfVOcVk/gviz/tq?tqx=out:csv&headers=1&sheet=Base%20tratada&tq=select%20*%20where%20A%20is%20not%20null';
+window.APP_URL=null;window.SNAPSHOT=null;
+
+</script>
+<script>
+(function(){
+'use strict';
+/* ================= CONFIG ================= */
+var META_TOTAL = 151;
+var AGES = ['45 a 49 anos','50 a 54 anos','55 a 61 anos'];
+var REGIONS = ['Zona Leste','Zona Sul','Zona Norte','Zona Oeste','Centro'];
+var QUOTA = { 'Zona Leste':[17,17,19], 'Zona Sul':[17,16,18], 'Zona Norte':[10,10,10], 'Zona Oeste':[4,4,5], 'Centro':[1,2,1] };
+var REFRESH_MS = 120000;
+
+var ORD = {
+  renda:['Até 1 salário mínimo','De 1 a 3 salários mínimos','De 3 a 5 salários mínimos','De 5 a 10 salários mínimos','Mais de 10 salários mínimos','Prefiro não informar'],
+  tempo:['Até 30 minutos','De 30 minutos a 1 hora','De 1 a 2 horas','De 2 a 3 horas','Mais de 3 horas','Varia muito de um dia para outro'],
+  freq:['Nenhum dia','1 a 2 dias','3 a 4 dias','5 a 6 dias','Todos os dias'],
+  ano:['Até 2015','2016 a 2018','2019 a 2021','2022 a 2024','2025 ou mais recente','Não sei informar'],
+  custo:['Até R$ 500','De R$ 501 a R$ 1.000','De R$ 1.001 a R$ 1.500','De R$ 1.501 a R$ 2.000','De R$ 2.001 a R$ 3.000','Mais de R$ 3.000'],
+  entrada:['Nenhuma entrada','Até 10%','De 11% a 20%','De 21% a 30%','Mais de 30%','Não sei informar / prefiro não responder'],
+  compart:['Somente eu','1 pessoa','2 pessoas','3 ou mais pessoas'],
+  ida:['Baixa','Média','Alta'], ev:['Alta','Incerteza','Baixa'], renov:['Alto','Intermediário','Baixo'],
+  perfil:['Proprietário de 1 carro','Proprietário de 2 ou mais','Assinatura','Aluguel de longo prazo','Aluguel eventual','Carro de familiar','Não usa carro']
+};
+ORD.parcela = ORD.custo.concat(['Não sei informar / prefiro não responder']);
+
+var SHORT = {
+  'Até 1 salário mínimo':'Até 1 SM','De 1 a 3 salários mínimos':'1 a 3 SM','De 3 a 5 salários mínimos':'3 a 5 SM','De 5 a 10 salários mínimos':'5 a 10 SM','Mais de 10 salários mínimos':'Mais de 10 SM','Prefiro não informar':'Não informou',
+  'Profissional autônomo(a)':'Autônomo(a)','Empresário(a)':'Empresário(a)','Empregado(a) com carteira assinada (CLT)':'CLT','Atualmente não exerço nenhuma atividade remunerada':'Sem atividade remunerada','Outra situação':'Outra','Microempreendedor(a) individual (MEI)':'MEI','Servidor(a)/Funcionário(a) público(a)':'Servidor(a) público(a)','Aposentado(a)':'Aposentado(a)',
+  'Varia muito de um dia para outro':'Varia muito','De 30 minutos a 1 hora':'30 min a 1 h','Até 30 minutos':'Até 30 min','De 1 a 2 horas':'1 a 2 h','De 2 a 3 horas':'2 a 3 h','Mais de 3 horas':'Mais de 3 h',
+  'Até R$ 500':'Até R$ 500','De R$ 501 a R$ 1.000':'R$ 501–1.000','De R$ 1.001 a R$ 1.500':'R$ 1.001–1.500','De R$ 1.501 a R$ 2.000':'R$ 1.501–2.000','De R$ 2.001 a R$ 3.000':'R$ 2.001–3.000','Mais de R$ 3.000':'Mais de R$ 3.000',
+  'Não sei informar / prefiro não responder':'Não sabe / prefere não dizer','Nenhuma entrada':'Sem entrada','De 11% a 20%':'11% a 20%','De 21% a 30%':'21% a 30%',
+  '2025 ou mais recente':'2025+','2016 a 2018':'2016–18','2019 a 2021':'2019–21','2022 a 2024':'2022–24','Não sei informar':'Não sabe',
+  '45 a 49 anos':'45–49','50 a 54 anos':'50–54','55 a 61 anos':'55–61',
+  'Tenho vaga e acredito que seria possível instalar um carregador':'Vaga, instalação possível','Tenho vaga, mas não sei se seria possível instalar':'Vaga, não sabe se é possível','Tenho vaga, mas acredito que não seria possível instalar':'Vaga, instalação inviável','Não possuo vaga de garagem':'Sem vaga de garagem','Já existe carregador ou estrutura adequada':'Já tem carregador/estrutura'
+};
+function sh(k){ return SHORT[k] || k; }
+
+var CHANNELS = [
+  {m:'IA/Chatbot', l:'IA/Chatbot', g:'dig'},
+  {m:'Individualmente', l:'App/site sozinho', g:'dig'},
+  {m:'Digital, com suporte', l:'Digital + humano', g:'hum'},
+  {m:'Atendimento remoto', l:'Humano remoto', g:'hum'},
+  {m:'concessionária', l:'Concessionária', g:'hum'},
+  {m:'agência', l:'Agência', g:'hum'},
+  {m:'Depende', l:'Depende', g:'dep'}
+];
+var STAGES = [['Pesquisar informações','Pesquisar'],['Simular condições','Simular'],['Tirar dúvidas','Tirar dúvidas'],['Negociar','Negociar'],['Contratar/assinar','Contratar'],['Resolver problemas','Pós-contratação']];
+
+var MS = {
+  fatores:[['Conforto e praticidade','Conforto e praticidade'],['Segurança nos deslocamentos','Segurança nos deslocamentos'],['Longo tempo de deslocamento','Tempo longo no transporte público'],['Transporte de filhos','Transporte de filhos/familiares'],['Distância até meus principais','Distância até os destinos'],['Transporte de compras','Transporte de compras/objetos'],['Uso profissional','Uso profissional / renda'],['Pouca disponibilidade de transporte','Pouca oferta de transporte público'],['pouco disponível nos horários','Transporte público fora dos horários'],['Transporte de idosos','Transporte de idosos'],['Nenhum desses fatores','Nenhum desses fatores']],
+  ape:[['Ponto de ônibus','Ponto de ônibus'],['Estação de metrô','Estação de metrô'],['Terminal ou corredor','Terminal/corredor de ônibus'],['Estação de trem','Estação de trem/CPTM'],['Supermercado','Mercado/padaria'],['Farmácia','Farmácia'],['Unidade de saúde','Saúde'],['Banco ou serviços','Banco'],['Local de trabalho','Local de trabalho'],['Ponto de recarga','Ponto de recarga EV'],['Nenhuma dessas opções','Nenhuma dessas']],
+  atividades:[['Compras e tarefas','Compras e tarefas'],['Lazer e viagens','Lazer e viagens'],['Deslocamento para o trabalho','Trabalho'],['Levar ou buscar filhos','Filhos/dependentes'],['Consultas ou compromissos de saúde','Saúde'],['Transporte ou cuidado de idosos','Cuidado de idosos'],['Uso profissional','Uso profissional'],['O veículo facilita','Facilita, mas não é indispensável'],['Não dependo de veículo','Não depende de veículo']],
+  alt:[['Aplicativos de transporte','aplicativos (Uber, 99)'],['Metrô','metrô'],['Táxi','táxi'],['Caminhada','caminhada'],['Carona','carona'],['Bicicleta','bicicleta'],['Ônibus','ônibus'],['Alugar outro carro','alugar outro carro'],['Adiar ou deixar','adiar ou não ir'],['Trem/CPTM','trem/CPTM'],['Motocicleta','moto']],
+  canais:[['WhatsApp','WhatsApp'],['Site oficial','Site da financiadora'],['Aplicativo da instituição','App da instituição'],['E-mail','E-mail'],['Plataforma automotiva','Plataforma automotiva (ex.: Webmotors)'],['Não tenho preferência','Sem preferência'],['Não gostaria de utilizar','Não usaria canais digitais']],
+  evAcesso:[['Financiamento','Financiamento'],['Compra à vista','Compra à vista'],['Aluguel de longo prazo','Aluguel de longo prazo'],['Assinatura','Assinatura'],['Aluguel apenas','Aluguel eventual'],['Consórcio','Consórcio'],['Ainda não sei','Ainda não sabe'],['Não consideraria','Não consideraria EV']],
+  evSol:[['Poder financiar','Carregador no financiamento'],['Condições especiais para financiamento','Condições para financiar EV'],['Condições especiais para aluguel','Condições para alugar EV'],['Condições especiais para assinatura','Condições para assinar EV'],['Avaliação técnica','Avaliação da instalação elétrica'],['Seguro incluído','Seguro incluído/desconto'],['Pacote de aluguel/assinatura','Pacote com recarga'],['Aplicativo para localizar','App de recarga'],['Cashback','Cashback/pontos'],['Atendimento especializado','Atendimento especializado'],['Créditos ou descontos para recarga','Créditos para recarga pública'],['Nenhuma dessas soluções','Nenhuma aumentaria interesse']]
+};
+
+var PROP = [['Adquirir meu primeiro carro','Adquirir o primeiro carro'],['Substituir meu carro atual','Substituir o carro'],['Manter o carro que já utilizo','Manter o carro atual'],['Financiar um carro','Financiar um carro'],['Participar de um consórcio','Consórcio'],['Utilizar carro por assinatura','Assinatura'],['Utilizar aluguel de longo prazo','Aluguel de longo prazo'],['Alugar carro apenas quando necessário','Aluguel eventual'],['Utilizar principalmente transporte público','Transporte público'],['Utilizar principalmente aplicativos de transporte','Aplicativos'],['Combinar diferentes meios de mobilidade','Multimodalidade']];
+var FIN = [['Taxa de juros','Taxa de juros'],['Valor da entrada','Valor da entrada'],['Valor das parcelas','Valor das parcelas'],['Prazo do financiamento','Prazo'],['Clareza sobre o custo total','Clareza do custo total'],['Rapidez na análise','Rapidez na aprovação'],['Crédito pré-aprovado','Crédito pré-aprovado'],['Facilidade de contratação','Facilidade de contratação'],['antecipar parcelas','Antecipar parcelas'],['concessionária/loja','Contratar na concessionária'],['Benefícios por já ser cliente','Benefícios por ser cliente'],['Seguro ou outros serviços','Seguro e serviços']];
+var TRUST = [['Clareza sobre juros','Clareza sobre juros e custo total'],['Cumprimento das condições','Cumprimento das condições'],['Segurança no tratamento','Segurança dos dados'],['Reputação da instituição','Reputação'],['Facilidade para falar com uma pessoa','Falar com uma pessoa'],['Rapidez na análise','Rapidez na aprovação'],['Transparência durante','Transparência no processo'],['Facilidade para resolver problemas','Resolver problemas'],['Qualidade do atendimento após','Pós-venda'],['Experiência anterior positiva','Experiência anterior positiva']];
+var BANKS = [['Santander','Santander'],['Itaú','Itaú'],['Bradesco','Bradesco'],['Banco do Brasil','Banco do Brasil'],['Caixa','Caixa'],['BV','BV'],['Banco PAN','PAN'],['Outra','Outras']];
+var BENEF = [['Taxas ou condições','Taxas/condições vantajosas'],['Crédito ou limite','Crédito pré-aprovado'],['Desconto na mensalidade','Desconto em aluguel'],['caução','Sem caução'],['Cashback','Cashback/pontos'],['Seguro/proteção','Seguro incluído'],['manutenção do carro','Manutenção'],['troca ou upgrade','Troca/upgrade'],['aquisição de veículos eletrificados','Aquisição de EV'],['recarga de carros','Recarga EV'],['Contratação pelo aplicativo','Contratar pelo app'],['Atendimento especializado','Atendimento especializado'],['já ser cliente','Condições por ser cliente']];
+var EV_MOT = [['consideraria financiar um carro elétrico','Financiaria EV com boas condições'],['economia com combustível','Economia de combustível/energia'],['recarregar em casa','Recarga em casa'],['Benefícios oferecidos','Benefícios do banco'],['carregador residencial','Carregador no financiamento']];
+var EV_BAR = [['falta de pontos públicos','Falta de recarga pública'],['durabilidade ou ao custo da bateria','Bateria (durabilidade/custo)'],['valor de revenda','Valor de revenda']];
+
+var SEG = ['Cliente atual + consideraria financiar','Cliente atual + não marcou financiamento','Não cliente + consideraria financiar','Não cliente + não marcou financiamento'];
+
+var PAGES = [
+  {id:'visao-geral',t:'Visão Geral',q:'Qual é a principal história que os dados estão contando?'},
+  {id:'perfil',t:'Perfil do Respondente',q:'Quem estamos analisando, e por quais perfis vamos comparar?'},
+  {id:'mobilidade',t:'Mobilidade e IDA',q:'Quanto o cotidiano desse público depende do automóvel e o que parece estar associado a essa dependência?'},
+  {id:'veiculos',t:'Relação com Veículos',q:'Como esse público acessa o carro?'},
+  {id:'propensao',t:'Propensão à Mobilidade',q:'O que esse consumidor pretende fazer, e o que muda entre segmentos?'},
+  {id:'financiamento',t:'Financiamento',q:'Quem quer financiar consegue encaixar a contratação nas condições que considera aceitáveis?'},
+  {id:'confianca',t:'Confiança e Jornada',q:'O que gera confiança e como a Geração X prefere interagir?'},
+  {id:'instituicoes',t:'Instituições Financeiras',q:'Onde o Santander está na decisão, e quem são os não clientes com potencial?'},
+  {id:'ev',t:'Veículos Elétricos',q:'Existe intenção potencial e quais barreiras impedem que ela se transforme em adoção?'},
+  {id:'insights',t:'Insights e Recomendações',q:'O que o Santander deve fazer, para quem, quando e onde?'}
+];
+var ICONS = {
+  'visao-geral':'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  perfil:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.3 0 4 1.6 4.5 4.5"/>',
+  mobilidade:'<path d="M5 16l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3" y="15" width="18" height="4" rx="1.5"/><circle cx="7" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+  veiculos:'<path d="M3 13l2-5h14l2 5v5H3z"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M3 13h18"/>',
+  propensao:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+  financiamento:'<ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6M5 10v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4M5 14v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4"/>',
+  confianca:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  instituicoes:'<path d="M3 9l9-5 9 5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>',
+  ev:'<path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19l7-7"/>',
+  insights:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>'
+};
+function ico(name,size){ return '<svg width="'+(size||18)+'" height="'+(size||18)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||name)+'</svg>'; }
+var EXTRA = {
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/>',
+  check:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  gauge:'<path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/>',
+  car:ICONS.veiculos, money:ICONS.financiamento, leaf:ICONS.ev, trend:ICONS.propensao, shield:ICONS.confianca, bank:ICONS.instituicoes,
+  phone:'<rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/>',
+  hand:'<path d="M3 12l4-4 4 2 3-3 4 1 3 4-6 6-3-1-3 2z"/>',
+  flame:'<path d="M12 3l9.5 17h-19z"/><path d="M12 10v4M12 17h.01"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  ai:'<rect x="5" y="7" width="14" height="11" rx="3"/><path d="M12 3v4M9 12h.01M15 12h.01M9 15.5h6"/>'
+};
+for (var k in EXTRA) ICONS[k]=EXTRA[k];
+
+/* ================= STATE ================= */
+var DATA=null, HN=[], C={}, ALL=[], VALID=[], ROWS=[];
+var state = { page:'visao-geral', f:{}, opt:{idaBy:'regiao', finBy:'renda', heatBy:'parcela'} };
+var charts=[];
+var IS_GAS = (typeof google!=='undefined' && google.script && google.script.run);
+
+/* ================= DATA HELPERS ================= */
+function norm(s){ return String(s==null?'':s).replace(/\s+/g,' ').trim(); }
+function ixExact(name){ var n=norm(name); return HN.indexOf(n); }
+function ixHas(){ var parts=[].slice.call(arguments); for (var i=0;i<HN.length;i++){ var ok=true; for (var j=0;j<parts.length;j++){ if(HN[i].indexOf(parts[j])<0){ok=false;break;} } if(ok) return i; } return -1; }
+function ixPre(prefix, has){ for (var i=0;i<HN.length;i++){ if(HN[i].indexOf(prefix)===0 && HN[i].indexOf(has)>=0) return i; } return -1; }
+function v(r,i){ return i<0||i==null?'':norm(r[i]); }
+function num(r,i){ if(i<0||i==null) return null; var x=r[i]; if(x===''||x==null) return null; if(typeof x==='number') return isFinite(x)?x:null; var s=String(x).trim().replace(',','.'); if(!/^-?\d+(\.\d+)?$/.test(s)) return null; return parseFloat(s); }
+
+function mapCols(){
+  C.ts=0;
+  C.idade=ixExact('Faixa etária tratada'); C.regiao=ixExact('Região tratada');
+  C.prof=ixHas('situação profissional'); C.renda=ixHas('renda mensal total');
+  C.fatores=ixHas('quais fatores fazem ou poderiam'); C.tempo=ixHas('quanto tempo você passa no total');
+  C.ape=ixHas('consegue acessar a pé'); C.tipo=ixHas('qual tipo melhor o descreve'); C.motor=ixHas('motorização');
+  C.ano=ixHas('ano do veículo'); C.compart=ixHas('quantas outras pessoas utilizam'); C.freq=ixHas('em quantos dias você utiliza');
+  C.atividades=ixHas('Para quais atividades'); C.alt=ixHas('Se você não pudesse utilizar um carro'); C.canais=ixHas('Quais canais digitais');
+  C.evAcesso=ixHas('formas de acesso consideraria'); C.recarga=ixHas('possibilidade de recarregar um carro'); C.evSol=ixHas('veículos elétricos seriam mais relevantes');
+  C.valida=ixExact('Resposta válida'); C.possui=ixExact('Possui carro'); C.qtd=ixExact('Quantidade de carros'); C.usa=ixExact('Usa carro regularmente');
+  C.perfil=ixExact('Perfil de relação com veículo'); C.ida=ixExact('IDA'); C.faixaIda=ixExact('Faixa IDA'); C.acessoTC=ixExact('Acesso a transporte coletivo');
+  C.parcela=ixExact('Parcela mensal compatível'); C.entrada=ixExact('Entrada aceitável'); C.custo=ixExact('Custo mensal percebido');
+  C.idadeVeic=ixExact('Idade relativa do veículo'); C.renov=ixExact('Potencial de renovação'); C.seg=ixExact('Segmento Santander');
+  C.ev=ixExact('Readiness EV'); C.dup=ixExact('Duplicidade potencial');
+  C.prop={}; PROP.forEach(function(p){ C.prop[p[0]]=ixExact('Propensão — '+p[0]); });
+  C.fin={}; FIN.forEach(function(p){ C.fin[p[0]]=ixPre('Relevância financiamento —',p[0]); });
+  C.trust={}; TRUST.forEach(function(p){ C.trust[p[0]]=ixPre('Driver confiança —',p[0]); });
+  C.stage={}; STAGES.forEach(function(s){ C.stage[s[0]]=ixHas('qual formato você preferiria','['+s[0]); });
+  C.bank={}; BANKS.forEach(function(b){ C.bank[b[0]]={cli:ixPre('Cliente —',b[0]),ini:ixPre('Iniciaria relacionamento —',b[0]),fin:ixPre('Consideraria financiar —',b[0])}; });
+  C.benef={}; BENEF.forEach(function(b){ C.benef[b[0]]=ixHas('Quais dos benefícios abaixo',b[0]); });
+  C.evS={}; EV_MOT.concat(EV_BAR).forEach(function(b){ C.evS[b[0]]=ixPre('EV —',b[0]); });
+}
+
+var FILTERS = [
+  {id:'idade',l:'Faixa etária',c:'idade',ord:AGES},
+  {id:'regiao',l:'Região',c:'regiao',ord:REGIONS},
+  {id:'renda',l:'Renda',c:'renda',ord:ORD.renda},
+  {id:'prof',l:'Situação profissional',c:'prof'},
+  {id:'perfil',l:'Relação com carro',c:'perfil',ord:ORD.perfil},
+  {id:'possui',l:'Possui carro?',c:'possui',map:{'1':'Sim','0':'Não'}},
+  {id:'faixaIda',l:'Faixa IDA',c:'faixaIda',ord:['Alta','Média','Baixa','Sem informação']},
+  {id:'ev',l:'Readiness EV',c:'ev',ord:['Alta','Incerteza','Baixa','Sem informação']}
+];
+function fval(r,f){ var x=v(r,C[f.c]); if(f.map) x=f.map[x]||''; return x; }
+
+function applyFilters(){
+  ROWS = VALID.filter(function(r){
+    for (var k in state.f){ var f=FILTERS.filter(function(x){return x.id===k;})[0]; if(f && fval(r,f)!==state.f[k]) return false; }
+    return true;
+  });
+}
+
+function dist(rows,i,order,exclude){
+  var c={}, n=0; rows.forEach(function(r){ var x=v(r,i); if(!x||(exclude&&exclude.indexOf(x)>=0)) return; n++; c[x]=(c[x]||0)+1; });
+  var keys = order ? order.filter(function(k){return c[k];}).concat(Object.keys(c).filter(function(k){return order.indexOf(k)<0;}).sort(function(a,b){return c[b]-c[a];})) : Object.keys(c).sort(function(a,b){return c[b]-c[a];});
+  return {n:n, items:keys.map(function(k){ return {key:k,label:sh(k),count:c[k],pct:c[k]/n*100}; })};
+}
+function multi(rows,i,opts){
+  var n=0, cnt=opts.map(function(){return 0;});
+  rows.forEach(function(r){ var x=v(r,i); if(!x) return; n++; opts.forEach(function(o,j){ if(x.indexOf(o[0])>=0) cnt[j]++; }); });
+  return {n:n, items:opts.map(function(o,j){ return {key:o[0],label:o[1],count:cnt[j],pct:n?cnt[j]/n*100:0}; }).sort(function(a,b){return b.pct-a.pct;})};
+}
+function mean(rows,i){ var s=0,n=0; rows.forEach(function(r){ var x=num(r,i); if(x==null) return; s+=x; n++; }); return {n:n, mean:n?s/n:null}; }
+function share(rows,i,pred){ var k=0,n=0; rows.forEach(function(r){ var x=num(r,i); if(x==null) return; n++; if(pred(x)) k++; }); return {n:n,k:k,pct:n?k/n*100:null}; }
+function shareCat(rows,i,val,exclude){ var k=0,n=0; rows.forEach(function(r){ var x=v(r,i); if(!x||(exclude&&exclude.indexOf(x)>=0)) return; n++; if(x===val) k++; }); return {n:n,k:k,pct:n?k/n*100:null}; }
+function groupMean(rows,gi,vi,order,gmap){
+  var g={}; rows.forEach(function(r){ var k=v(r,gi); if(gmap) k=gmap[k]||''; var x=num(r,vi); if(!k||x==null) return; (g[k]=g[k]||{s:0,n:0}); g[k].s+=x; g[k].n++; });
+  var keys = order ? order.filter(function(k){return g[k];}) : Object.keys(g).sort(function(a,b){return g[b].s/g[b].n-g[a].s/g[a].n;});
+  return keys.map(function(k){ return {key:k,label:sh(k),value:g[k].s/g[k].n,n:g[k].n}; });
+}
+function cross(rows,ri,ci,rOrd,cOrd){
+  return rOrd.map(function(rk){ var sub=rows.filter(function(r){return v(r,ri)===rk;}); var d={},n=0; sub.forEach(function(r){ var x=v(r,ci); if(!x) return; n++; d[x]=(d[x]||0)+1; }); return {key:rk,n:n,cells:cOrd.map(function(ck){ return {count:d[ck]||0,pct:n?(d[ck]||0)/n*100:0}; })}; }).filter(function(x){return x.n>0;});
+}
+
+/* ================= FORMAT ================= */
+function pct(x,d){ if(x==null||isNaN(x)) return '—'; return x.toFixed(d||0).replace('.',',')+'%'; }
+function fx(x,d){ if(x==null||isNaN(x)) return '—'; return x.toFixed(d==null?0:d).replace('.',','); }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function lc(s){ return s.charAt(0).toLowerCase()+s.slice(1); }
+
+/* ================= UI BUILDERS ================= */
+function kpi(icon,label,value,foot,cls){ return '<div class="kpi '+(cls||'')+'"><div class="ic">'+ico(icon)+'</div><div><div class="lb">'+label+'</div><div class="vl">'+value+'</div>'+(foot?'<div class="ft">'+foot+'</div>':'')+'</div></div>'; }
+function smallWarn(n){ if(n===0) return '<p class="small">Não há respostas suficientes para este recorte.</p>'; if(n<30) return '<p class="small">Base pequena — resultado indicativo.</p>'; return ''; }
+function card(cls,title,sub,n,body,extra){
+  return '<div class="card '+cls+'"><div class="card-h"><div><h3>'+title+'</h3>'+(sub?'<p class="sub">'+sub+'</p>':'')+(n!=null?smallWarn(n):'')+'</div>'+(n!=null?'<span class="ntag">n = '+n+'</span>':'')+(extra||'')+'</div>'+body+'</div>';
+}
+var chartQueue=[];
+function chartDiv(id,h,fn){ chartQueue.push({id:id,fn:fn}); return '<div class="chart" id="'+id+'"></div>'; }
+function read(dado,significado,oportunidade){ return '<div class="read"><div><div class="k">Leitura</div><p>'+dado+'</p></div><div><div class="k">O que significa</div><p>'+significado+'</p></div><div><div class="k">Oportunidade</div><p>'+oportunidade+'</p></div></div>'; }
+function seg(key,opts){ return '<div class="seg" data-seg="'+key+'">'+opts.map(function(o){ return '<button data-v="'+o[0]+'" class="'+(state.opt[key]===o[0]?'on':'')+'">'+o[1]+'</button>'; }).join('')+'</div>'; }
+
+/* ================= CHARTS (HTML/SVG, sem bibliotecas) ================= */
+var CLICKS={}, cidN=0;
+function ck(fn,item){ if(!fn) return ''; var k='k'+(++cidN); CLICKS[k]=function(){ fn(item); }; return ' data-ck="'+k+'"'; }
+function a11y(clickable,label){ return clickable?' tabindex="0" role="button" aria-label="'+esc(label+' · aplicar filtro')+'"':''; }
+function tipAttr(t){ return ' data-tip="'+esc(t)+'"'; }
+function put(id,html){ var el=document.getElementById(id); if(el) el.innerHTML=html; }
+function emptyMsg(){ return '<div class="empty">Sem respostas neste recorte</div>'; }
+function normItems(items){ return items.map(function(d){ if(d.value==null&&d.pct!=null) d=Object.assign({},d,{value:d.pct}); return d; }); }
+function tipText(it,fmt){ return it.tip||(it.label+': '+fmt(it.value)+(it.count!=null?' · '+it.count+' resp.':'')+(it.n!=null?' · n='+it.n:'')); }
+
+/* Barras horizontais: rótulo quebra linha, valor fora da barra */
+function hbar(id,items,o){
+  o=o||{}; items=normItems(items); if(!items.length) return put(id,emptyMsg());
+  var fmt=o.fmt||function(x){return pct(x);};
+  var max=o.max||Math.max.apply(null,items.map(function(d){return d.value||0;}))||1;
+  put(id,'<div class="hb'+(o.sub?' hb-sub':'')+'">'+items.map(function(d){
+    var w=Math.max(0,Math.min(100,(d.value||0)/max*100)), col=o.color?o.color(d):'#EC0000';
+    return '<div class="hb-row'+(o.onClick?' clk':'')+'"'+tipAttr(tipText(d,fmt))+ck(o.onClick,d)+a11y(o.onClick,tipText(d,fmt))+'><div class="hb-l">'+esc(d.label)+'</div><div class="hb-t"><i style="width:'+w.toFixed(1)+'%;background:'+col+'"></i></div><div class="hb-v">'+(d.value==null?'—':fmt(d.value))+(o.sub?'<small>'+esc(o.sub(d))+'</small>':'')+'</div></div>';
+  }).join('')+'</div>');
+}
+/* Barras verticais: valor acima, rótulo abaixo com quebra */
+function vbar(id,items,o){
+  o=o||{}; items=normItems(items); if(!items.length) return put(id,emptyMsg());
+  var fmt=o.fmt||function(x){return pct(x);};
+  var max=o.max||Math.max.apply(null,items.map(function(d){return d.value||0;}))||1;
+  put(id,'<div class="vb" style="--n:'+items.length+'">'+items.map(function(d){
+    var hgt=Math.max(1.5,Math.min(100,(d.value||0)/max*100)), col=o.color?o.color(d):'#EC0000';
+    return '<div class="vb-c'+(o.onClick?' clk':'')+'"'+tipAttr(tipText(d,fmt))+ck(o.onClick,d)+a11y(o.onClick,tipText(d,fmt))+'><div class="vb-a"><div class="vb-v">'+fmt(d.value)+'</div><i style="height:'+hgt.toFixed(1)+'%;background:'+col+'"></i></div><div class="vb-l">'+esc(d.label)+'</div></div>';
+  }).join('')+'</div>');
+}
+/* Rosca SVG com legenda em HTML (lado ou abaixo, conforme a largura) */
+function donutSvg(parts,center,sub){
+  var tot=parts.reduce(function(a,p){return a+p.v;},0)||1, r=42, C2=2*Math.PI*r, off=0;
+  var segs=parts.map(function(p){ var len=p.v/tot*C2; var gap=parts.length>1&&p.v>0?1.2:0; var s='<circle r="'+r+'" cx="55" cy="55" fill="none" stroke="'+p.c+'" stroke-width="14" stroke-dasharray="'+Math.max(0,len-gap).toFixed(2)+' '+(C2-Math.max(0,len-gap)).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'"'+(p.t?' data-tip="'+esc(p.t)+'"':'')+'/>'; off+=len; return s; }).join('');
+  return '<svg viewBox="0 0 110 110" class="dn-svg"><g transform="rotate(-90 55 55)"><circle r="'+r+'" cx="55" cy="55" fill="none" stroke="#F2F2F2" stroke-width="14"/>'+segs+'</g><text x="55" y="'+(sub?53:59)+'" text-anchor="middle" class="dn-c">'+esc(center||'')+'</text>'+(sub?'<text x="55" y="68" text-anchor="middle" class="dn-s">'+esc(sub)+'</text>':'')+'</svg>';
+}
+function donut(id,items,colors,center){
+  if(!items.length) return put(id,emptyMsg());
+  var parts=items.map(function(it,j){ return {v:it.count,c:colors[j%colors.length],t:it.label+': '+pct(it.pct)+' · '+it.count+' resp.'}; });
+  put(id,'<div class="dn">'+donutSvg(parts,center)+'<div class="lg-v">'+items.map(function(it,j){ return '<div class="lg-i"><span class="sw" style="background:'+colors[j%colors.length]+'"></span><span class="lg-t">'+esc(it.label)+'</span><b>'+pct(it.pct)+'</b></div>'; }).join('')+'</div></div>');
+}
+function legend(series){ return '<div class="lg">'+series.map(function(s){ return '<span class="lg-i"><span class="sw" style="background:'+s.color+'"></span>'+esc(s.name)+'</span>'; }).join('')+'</div>'; }
+/* Grupos horizontais: uma linha por categoria, uma barra fina por série */
+function groupH(id,cats,series,o){
+  o=o||{}; if(!cats.length) return put(id,emptyMsg());
+  var max=o.max||Math.max.apply(null,[].concat.apply([],series.map(function(s){return s.data.map(function(x){return x||0;});})))||1;
+  var html=legend(series)+'<div class="gh">'+cats.map(function(c,i){
+    var hl=o.highlight&&o.highlight(c);
+    return '<div class="gh-row'+(hl?' hl':'')+(o.onClick?' clk':'')+'"'+(o.tip?tipAttr(o.tip(i)):'')+ck(o.onClick,c)+'><div class="gh-l">'+esc(c)+(o.sub?'<small>'+esc(o.sub(i))+'</small>':'')+'</div><div class="gh-b">'+series.map(function(s){ var x=s.data[i];
+      return '<div class="gh-s"><div class="hb-t thin"><i style="width:'+(x==null?0:Math.min(100,x/max*100)).toFixed(1)+'%;background:'+s.color+'"></i></div><span class="gh-v">'+(x==null?'—':(s.fmt?s.fmt(x):pct(x)))+'</span></div>'; }).join('')+'</div></div>';
+  }).join('')+'</div>';
+  put(id,html);
+}
+/* Grupos verticais (poucas categorias) */
+function groupBars(id,cats,series,o){
+  o=o||{}; if(!cats.length) return put(id,emptyMsg());
+  var max=o.max||Math.max.apply(null,[].concat.apply([],series.map(function(s){return s.data.map(function(x){return x||0;});})))||1;
+  put(id,legend(series)+'<div class="vb" style="--n:'+cats.length+'">'+cats.map(function(c,i){
+    return '<div class="vb-c'+(o.onClick?' clk':'')+'"'+(o.tip?tipAttr(o.tip(i)):'')+ck(o.onClick,c)+a11y(o.onClick,o.tip?o.tip(i):c)+'><div class="vb-a grp">'+series.map(function(s){ var x=s.data[i]; return '<div class="vb-g"><div class="vb-v sm">'+(x==null?'':(s.fmt?s.fmt(x):pct(x)))+'</div><i style="height:'+Math.max(1.5,(x||0)/max*100).toFixed(1)+'%;background:'+s.color+'"></i></div>'; }).join('')+'</div><div class="vb-l">'+esc(c)+'</div></div>';
+  }).join('')+'</div>');
+}
+function heatTable(rowsData,colLabels,opt){
+  opt=opt||{};
+  if(!rowsData.length) return '<div class="empty">Sem respostas neste recorte</div>';
+  var h='<div class="scroll-x"><table class="heat'+(opt.compact?' compact':'')+'"><thead><tr><th></th>'+colLabels.map(function(c,i){ var sc=opt.shortCols&&opt.shortCols[i]; return '<th>'+(sc?'<span class="lf">'+esc(c)+'</span><span class="ls">'+esc(sc)+'</span>':esc(c))+'</th>';}).join('')+(opt.noN?'':'<th>n</th>')+'</tr></thead><tbody>';
+  rowsData.forEach(function(r){
+    h+='<tr><th class="rl">'+(r.short?'<span class="lf">'+esc(r.label)+'</span><span class="ls">'+esc(r.short)+'</span>':esc(r.label))+'</th>'+r.cells.map(function(cl){
+      var p=cl.pct, a=Math.min(1,p/(opt.scale||60)); var bg=cl.bg||('rgba(236,0,0,'+(0.05+a*0.85).toFixed(3)+')'); var col=cl.fg||(a>0.5?'#fff':'#1F1F1F');
+      return '<td style="background:'+bg+';color:'+col+'" title="'+esc(cl.title||(pct(p)+' · '+cl.count+' resp.'))+'">'+(cl.text!=null?cl.text:pct(p))+'</td>';
+    }).join('')+(opt.noN?'':'<td style="color:#8A8A8A;font-weight:500">'+r.n+'</td>')+'</tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+
+/* ================= COMMON METRICS ================= */
+function metrics(rows){
+  var m={};
+  m.n=rows.length;
+  m.ida=mean(rows,C.ida);
+  m.idaAlta=shareCat(rows,C.faixaIda,'Alta',['Sem informação']);
+  m.possui=share(rows,C.possui,function(x){return x===1;});
+  m.usa=share(rows,C.usa,function(x){return x===1;});
+  m.finP=mean(rows,C.prop['Financiar um carro']);
+  m.finAlta=share(rows,C.prop['Financiar um carro'],function(x){return x>=75;});
+  m.evAlta=shareCat(rows,C.ev,'Alta',['Sem informação']);
+  m.props=PROP.map(function(p){ var mm=mean(rows,C.prop[p[0]]), al=share(rows,C.prop[p[0]],function(x){return x>=75;}); return {key:p[0],label:p[1],value:mm.mean,n:mm.n,alta:al.pct}; }).filter(function(x){return x.n>0;}).sort(function(a,b){return b.value-a.value;});
+  m.fin=FIN.map(function(p){ var mm=mean(rows,C.fin[p[0]]), t2=share(rows,C.fin[p[0]],function(x){return x>=4;}); return {key:p[0],label:p[1],value:mm.mean,n:mm.n,top2:t2.pct}; }).filter(function(x){return x.n>0;}).sort(function(a,b){return b.value-a.value;});
+  m.trust=TRUST.map(function(p){ var mm=mean(rows,C.trust[p[0]]), t2=share(rows,C.trust[p[0]],function(x){return x>=4;}); return {key:p[0],label:p[1],value:mm.mean,n:mm.n,top2:t2.pct}; }).filter(function(x){return x.n>0;}).sort(function(a,b){return b.value-a.value;});
+  m.stages=STAGES.map(function(s){ var i=C.stage[s[0]], n=0, cnt=CHANNELS.map(function(){return 0;}); rows.forEach(function(r){ var x=v(r,i); if(!x) return; n++; CHANNELS.forEach(function(ch,j){ if(x.indexOf(ch.m)>=0) cnt[j]++; }); });
+    var dig=0,hum=0; CHANNELS.forEach(function(ch,j){ if(ch.g==='dig') dig+=cnt[j]; if(ch.g==='hum') hum+=cnt[j]; });
+    return {key:s[0],label:s[1],n:n,cells:cnt.map(function(c){return {count:c,pct:n?c/n*100:0};}),dig:n?dig/n*100:0,hum:n?hum/n*100:0}; });
+  m.banks=BANKS.map(function(b){ var cc=C.bank[b[0]]; return {key:b[0],label:b[1],cli:share(rows,cc.cli,function(x){return x===1;}),ini:share(rows,cc.ini,function(x){return x===1;}),fin:share(rows,cc.fin,function(x){return x===1;})}; });
+  var segD=dist(rows,C.seg,SEG,['Sem informação']); m.seg=segD;
+  var nc=0,ncf=0; segD.items.forEach(function(it){ if(it.key.indexOf('Não cliente')===0){ nc+=it.count; if(it.key.indexOf('consideraria')>0) ncf+=it.count; } });
+  m.ncFin={n:nc,k:ncf,pct:nc?ncf/nc*100:null};
+  m.evMot=EV_MOT.map(function(p){ var s=share(rows,C.evS[p[0]],function(x){return x>=75;}); return {key:p[0],label:p[1],value:s.pct,n:s.n}; }).filter(function(x){return x.n>0;}).sort(function(a,b){return b.value-a.value;});
+  m.evBar=EV_BAR.map(function(p){ var s=share(rows,C.evS[p[0]],function(x){return x>=75;}); return {key:p[0],label:p[1],value:s.pct,n:s.n}; }).filter(function(x){return x.n>0;}).sort(function(a,b){return b.value-a.value;});
+  return m;
+}
+
+/* ================= QUOTAS (global) ================= */
+function quotas(){
+  var real={}; REGIONS.forEach(function(r){ real[r]=[0,0,0]; });
+  VALID.forEach(function(r){ var rg=v(r,C.regiao), a=AGES.indexOf(v(r,C.idade)); if(real[rg]&&a>=0) real[rg][a]++; });
+  var rem=0; REGIONS.forEach(function(r){ for(var j=0;j<3;j++) rem+=Math.max(0,QUOTA[r][j]-real[r][j]); });
+  return {real:real,rem:rem};
+}
+
+/* ================= PAGES ================= */
+var R = {};
+var GREY='#C9C9C9', RED='#EC0000', RED2='#EA6F5D', DARK='#990000', GREEN='#1E8E3E', GREEN2='#7FBF8E';
+function setFilter(id,val){ if(state.f[id]===val) delete state.f[id]; else state.f[id]=val; renderAll(); toast(state.f[id]?'Filtro aplicado: '+sh(val):'Filtro removido'); }
+function regionClick(it){ setFilter('regiao',it.key); }
+function kp(label,value,foot,cls){ return '<div class="kpi '+(cls||'')+'"><div class="lb">'+label+'</div><div class="vl">'+value+'</div>'+(foot?'<div class="ft">'+foot+'</div>':'')+'</div>'; }
+function kpis(arr){ return '<div class="kpis k'+arr.length+'">'+arr.join('')+'</div>'; }
+function headline(t){ return '<p class="headline">'+t+'</p>'; }
+function sec(t){ return '<div class="sec">'+t+'</div>'; }
+function impl(rows){ var L=['Leitura','Significado','Implicação para o Santander']; return '<div class="impl"><div class="impl-g">'+rows.map(function(r,i){ return '<div><div class="k">'+L[i]+'</div><p>'+r+'</p></div>'; }).join('')+'</div></div>'; }
+function topK(arr,k){ return arr.slice(0,k).map(function(x){return x.key;}); }
+function hl(keys){ return function(d){ return keys.indexOf(d.key)>=0?RED:GREY; }; }
+function maxIt(d){ return d.items.slice().sort(function(a,b){return b.count-a.count;})[0]; }
+function lc(s){ return s.charAt(0).toLowerCase()+s.slice(1); }
+function uc(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function listJoin(a){ return a.length<2?a.join(''):a.slice(0,-1).join(', ')+' e '+a[a.length-1]; }
+function avgK(a,k){ var s=0,n=0; a.forEach(function(x){ if(x.n){s+=x[k];n++;} }); return n?s/n:null; }
+function fmtPctN(s){ return s.pct==null?'—':pct(s.pct); }
+function pm(rows,key){ return mean(rows,C.prop[key]); }
+function pAlta(rows,key){ return share(rows,C.prop[key],function(x){return x>=75;}); }
+function onlyCat(rows,col,val){ return rows.filter(function(r){ return v(r,C[col])===val; }); }
+function evAlta(rows){ return shareCat(rows,C.ev,'Alta',['Sem informação']); }
+function digShare(rows){ var s=0,k=0; STAGES.forEach(function(st){ var i=C.stage[st[0]], n=0, d=0; rows.forEach(function(r){ var x=v(r,i); if(!x) return; n++; if(/IA\/Chatbot|Individualmente/.test(x)) d++; }); if(n){ s+=d/n*100; k++; } }); return k?s/k:null; }
+function journey(m){
+  var info=m.stages.slice(0,2), comp=m.stages.slice(3,6);
+  var r={digI:avgK(info,'dig'),humI:avgK(info,'hum'),digC:avgK(comp,'dig'),humC:avgK(comp,'hum')};
+  r.hybrid = r.humC!=null && r.humI!=null && (r.humC-r.humI)>=5 && r.digI>r.digC;
+  return r;
+}
+var PROP_KEYS=[['Manter o carro que já utilizo','Manter'],['Substituir meu carro atual','Substituir'],['Adquirir meu primeiro carro','1º carro'],['Financiar um carro','Financiar'],['Utilizar carro por assinatura','Assinatura'],['Utilizar aluguel de longo prazo','Aluguel longo'],['Alugar carro apenas quando necessário','Aluguel eventual'],['Utilizar principalmente transporte público','Transp. público']];
+var FLEX=['Utilizar carro por assinatura','Utilizar aluguel de longo prazo','Alugar carro apenas quando necessário'];
+
+/* ---------- componentes novos ---------- */
+/* Tabela comparativa: cols [{l,n}], rows [{l,vals,fmt,unit,hint}] · destaca maior valor da linha */
+function ctable(cols,rows,o){
+  o=o||{};
+  var h='<div class="scroll-x"><table class="ctab"><thead><tr><th></th>'+cols.map(function(c){ return '<th>'+esc(c.l)+(c.n!=null?'<small>n = '+c.n+'</small>':'')+'</th>'; }).join('')+'</tr></thead><tbody>';
+  rows.forEach(function(r){
+    var nums=r.vals.filter(function(x){return x!=null;}); var mx=nums.length>1?Math.max.apply(null,nums):null, mn=nums.length>1?Math.min.apply(null,nums):null, spread=mx!=null?mx-mn:0;
+    var fmt=r.fmt||function(x){return fx(x);};
+    h+='<tr><th class="rl">'+esc(r.l)+(r.hint?'<small>'+esc(r.hint)+'</small>':'')+'</th>'+r.vals.map(function(x,i){
+      var top=x!=null&&x===mx&&spread>=(r.thr||10);
+      var w=x==null?0:Math.min(100,(x/(r.max||100))*100);
+      return '<td class="'+(top?'best':'')+'" data-tip="'+esc(r.l+' · '+cols[i].l+': '+(x==null?'sem dados':fmt(x)))+'"><span class="cv">'+(x==null?'—':fmt(x))+'</span><span class="cb"><i style="width:'+w.toFixed(1)+'%"></i></span></td>';
+    }).join('')+'</tr>';
+  });
+  return h+'</tbody></table></div>'+(o.note?'<p class="note">'+o.note+'</p>':'');
+}
+/* Matriz de dispersão (bolhas) com quadrantes */
+function scatter(id,pts,o){
+  if(!pts.length) return put(id,emptyMsg());
+  var W=560,H=330,L=48,Rm=16,T=16,B=44, x0=o.xmin,x1=o.xmax,y0=o.ymin,y1=o.ymax;
+  var X=function(v){return L+(v-x0)/(x1-x0)*(W-L-Rm);}, Y=function(v){return T+(1-(v-y0)/(y1-y0))*(H-T-B);};
+  var maxN=Math.max.apply(null,pts.map(function(p){return p.n;}));
+  var s='<svg viewBox="0 0 '+W+' '+H+'" class="sc" role="img" aria-label="'+esc(o.aria||'')+'">';
+  s+='<rect x="'+X(o.xm)+'" y="'+T+'" width="'+(X(x1)-X(o.xm))+'" height="'+(Y(o.ym)-T)+'" fill="#FBF1EA"/>';
+  s+='<line x1="'+X(o.xm)+'" y1="'+T+'" x2="'+X(o.xm)+'" y2="'+(H-B)+'" stroke="#D0D0D0" stroke-dasharray="4 4"/><line x1="'+L+'" y1="'+Y(o.ym)+'" x2="'+(W-Rm)+'" y2="'+Y(o.ym)+'" stroke="#D0D0D0" stroke-dasharray="4 4"/>';
+  s+='<line x1="'+L+'" y1="'+(H-B)+'" x2="'+(W-Rm)+'" y2="'+(H-B)+'" stroke="#BDBDBD"/><line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(H-B)+'" stroke="#BDBDBD"/>';
+  var q=o.q||[]; var qs='font-size="10.5" fill="#8A8A8A" font-weight="600"';
+  if(q.length){ s+='<text x="'+(W-Rm-6)+'" y="'+(T+14)+'" text-anchor="end" '+qs.replace('#8A8A8A','#CC0000')+'>'+esc(q[0])+'</text><text x="'+(L+6)+'" y="'+(T+14)+'" '+qs+'>'+esc(q[1])+'</text><text x="'+(W-Rm-6)+'" y="'+(H-B-8)+'" text-anchor="end" '+qs+'>'+esc(q[2])+'</text><text x="'+(L+6)+'" y="'+(H-B-8)+'" '+qs+'>'+esc(q[3])+'</text>'; }
+  s+='<text x="'+((L+W-Rm)/2)+'" y="'+(H-8)+'" text-anchor="middle" font-size="11.5" fill="#555">'+esc(o.xl)+' →</text>';
+  s+='<text transform="translate(14 '+((T+H-B)/2)+') rotate(-90)" text-anchor="middle" font-size="11.5" fill="#555">'+esc(o.yl)+' →</text>';
+  [x0,o.xm,x1].forEach(function(t){ s+='<text x="'+X(t)+'" y="'+(H-B+15)+'" text-anchor="middle" font-size="10" fill="#8A8A8A">'+fx(t)+'</text>'; });
+  [y0,o.ym,y1].forEach(function(t){ s+='<text x="'+(L-6)+'" y="'+(Y(t)+3)+'" text-anchor="end" font-size="10" fill="#8A8A8A">'+fx(t)+'</text>'; });
+  var boxes=[]; pts.forEach(function(p){ p._r=6+Math.sqrt(p.n/maxN)*16; p._cx=X(p.x); p._cy=Y(p.y); boxes.push({x0:p._cx-p._r,x1:p._cx+p._r,y0:p._cy-p._r,y1:p._cy+p._r}); });
+  function hit(b){ return boxes.some(function(o){ return !(b.x1<o.x0||b.x0>o.x1||b.y1<o.y0||b.y0>o.y1); }); }
+  pts.forEach(function(p){ var t=p.label+' · n='+p.n+(p.nI!=null&&p.nI<p.n?' (IDA '+p.nI+')':''), w=t.length*6.4, r=p._r, cx=p._cx, cy=p._cy;
+    var cands=[[cx,cy-r-6,'middle'],[cx+r+6,cy+4,'start'],[cx-r-6,cy+4,'end'],[cx,cy+r+14,'middle']];
+    var pick=cands[0]; for(var i=0;i<cands.length;i++){ var c=cands[i], x0=c[2]==='middle'?c[0]-w/2:(c[2]==='start'?c[0]:c[0]-w), bx={x0:x0,x1:x0+w,y0:c[1]-11,y1:c[1]+2}; if(!hit(bx)&&x0>L&&x0+w<W){ pick=c; boxes.push(bx); break; } }
+    p._lab=pick; p._t=t; });
+  pts.forEach(function(p){ var r=p._r, small=(p.nI!=null?p.nI:p.n)<o.minN; var cx=p._cx, cy=p._cy;
+    s+='<g'+(o.onClick?' class="clk" tabindex="0" role="button" aria-label="'+esc(p.label+' · aplicar filtro')+'"'+ck(o.onClick,p):'')+' data-tip="'+esc(p.label+' · '+o.xl+' '+fx(p.x)+' · '+o.yl+' '+fx(p.y)+' · n = '+p.n+(small?' · base pequena':''))+'"><circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+(small?'#fff':(p.color||RED))+'" fill-opacity="'+(small?1:.85)+'" stroke="'+(p.color||RED)+'" stroke-width="2"'+(small?' stroke-dasharray="3 2"':'')+'/><text x="'+p._lab[0]+'" y="'+p._lab[1]+'" text-anchor="'+p._lab[2]+'" font-size="11" font-weight="700" fill="#1F1F1F">'+esc(p._t)+'</text></g>';
+  });
+  put(id,s+'</svg>');
+}
+/* Matriz 2x2 */
+function quad(cells,xl,yl){ // cells: [TL,TR,BL,BR] {t,d,n,pct,hot}
+  return '<div class="quad"><div class="qy">'+yl+' →</div><div class="qg">'+cells.map(function(c){ return '<div class="qc'+(c.hot?' hot':'')+'"><div class="qn">'+pct(c.pct)+'<small>n = '+c.n+'</small></div><div class="qt">'+c.t+'</div><div class="qd">'+c.d+'</div></div>'; }).join('')+'</div><div class="qx">'+xl+' →</div></div>';
+}
+function insightBox(ev,le,im){ return '<div class="ibox"><div><span>Evidência</span><p>'+ev+'</p></div><div><span>Leitura</span><p>'+le+'</p></div><div><span>Implicação</span><p>'+im+'</p></div></div>'; }
+
+/* ---------- índices exploratórios ---------- */
+var RENDA_IDX={'Até 1 salário mínimo':0,'De 1 a 3 salários mínimos':25,'De 3 a 5 salários mínimos':50,'De 5 a 10 salários mínimos':75,'Mais de 10 salários mínimos':100};
+var PARC_IDX={'Até R$ 500':0,'De R$ 501 a R$ 1.000':20,'De R$ 1.001 a R$ 1.500':40,'De R$ 1.501 a R$ 2.000':60,'De R$ 2.001 a R$ 3.000':80,'Mais de R$ 3.000':100};
+var ENT_IDX={'Nenhuma entrada':0,'Até 10%':25,'De 11% a 20%':50,'De 21% a 30%':75,'Mais de 30%':100};
+function compat(r){ var a=[RENDA_IDX[v(r,C.renda)],PARC_IDX[v(r,C.parcela)],ENT_IDX[v(r,C.entrada)]].filter(function(x){return x!=null;}); return a.length>=2?a.reduce(function(s,x){return s+x;},0)/a.length:null; }
+function desejoViab(rows){
+  var c=[0,0,0,0], n=0, fi=C.prop['Financiar um carro'];
+  rows.forEach(function(r){ var p=num(r,fi), k=compat(r); if(p==null||k==null) return; n++; var hp=p>=50, hk=k>=50; c[hk?(hp?1:0):(hp?3:2)]++; });
+  return {n:n,c:c,p:c.map(function(x){return n?x/n*100:0;})};
+}
+/* ---------- segmentos comportamentais ---------- */
+var SEGS=[
+  {id:'dep',t:'Dependente financiável',rule:'IDA alto e propensão a financiar ≥ 75 (só quem tem IDA calculável)',test:function(r){ return v(r,C.faixaIda)==='Alta' && num(r,C.prop['Financiar um carro'])>=75; },
+    why:'maior dependência associada a maior propensão a financiar',what:'financiamento de renovação com parcela previsível',when:'perto da troca ou quando o carro atual gera custo alto',where:'simulação digital + especialista na negociação'},
+  {id:'ren',t:'Renovador',rule:'possui carro e intenção de substituir ≥ 75',test:function(r){ return num(r,C.possui)===1 && num(r,C.prop['Substituir meu carro atual'])>=75; },
+    why:'alta intenção declarada de trocar o carro atual',what:'oferta de renovação: avaliação do usado + financiamento + seguro',when:'quando o veículo envelhece ou o custo de manutenção sobe',where:'app/site para simular, concessionária ou consultor para fechar'},
+  {id:'flex',t:'Mobilidade flexível',rule:'usa carro regularmente e propensão ≥ 75 a assinatura ou aluguel',test:function(r){ if(num(r,C.usa)!==1) return false; return FLEX.some(function(k){ return num(r,C.prop[k])>=75; }); },
+    why:'usa carro, mas considera acesso sem propriedade',what:'assinatura ou aluguel de longo prazo com seguro e manutenção incluídos',when:'fim de contrato, mudança de rotina ou troca de carro',where:'digital, com apoio humano remoto'},
+  {id:'ev',t:'EV potencial',rule:'Readiness alta, ou incerteza com recarga viável em casa',test:function(r){ var e=v(r,C.ev), rc=v(r,C.recarga); return e==='Alta' || (e==='Incerteza' && (rc.indexOf('possível instalar um')>=0||rc.indexOf('Já existe')===0)); },
+    why:'abertura ao elétrico e condição de recarga',what:'pacote EV: carro + carregador + instalação + seguro',when:'na decisão de troca, com simulação comparando custos',where:'especialista EV (humano remoto ou concessionária)'}
+];
+function segStats(rows){ return SEGS.map(function(s){ var mem=rows.filter(s.test); return {s:s,n:mem.length,pct:rows.length?mem.length/rows.length*100:0,rows:mem}; }); }
+function topLabel(rows,col,order,excl){ var d=dist(rows,C[col],order,excl); var t=d.items.length?maxIt(d):null; return t?t.label+' ('+pct(t.pct)+')':'—'; }
+
+/* ---------- 1. Visão Geral ---------- */
+R['visao-geral']=function(m){
+  var q=quotas(), valid=VALID.length, pmeta=valid/META_TOTAL*100, j=journey(m);
+  var gap=(m.usa.pct||0)-(m.possui.pct||0);
+  var idaA=onlyCat(ROWS,'faixaIda','Alta'), idaB=onlyCat(ROWS,'faixaIda','Baixa').concat(onlyCat(ROWS,'faixaIda','Média'));
+  var fA=pm(idaA,'Financiar um carro'), fB=pm(idaB,'Financiar um carro');
+  var own=ROWS.filter(function(r){return num(r,C.possui)===1;}), non=ROWS.filter(function(r){return num(r,C.possui)===0;});
+  var flexO=avgFlex(own), flexN=avgFlex(non);
+  var thesis = gap>=10 ? 'O carro é estrutural para a mobilidade da Geração X analisada, mas <b>acesso ao automóvel não significa necessariamente propriedade</b>.' : 'O carro é estrutural para a mobilidade da Geração X analisada, e o acesso ao automóvel acontece majoritariamente pela propriedade.';
+  var h='<div class="hero"><div class="eyebrow">Tese do estudo</div><p class="hero-t">'+thesis+'</p>'
+    +'<div class="gapviz" role="img" aria-label="Uso regular '+pct(m.usa.pct)+' contra propriedade '+pct(m.possui.pct)+'">'
+    +'<div class="gv-row"><span>Usa carro regularmente</span><div class="gv-t"><i style="width:'+(m.usa.pct||0)+'%;background:'+RED+'"></i></div><b>'+pct(m.usa.pct)+'</b></div>'
+    +'<div class="gv-row"><span>Possui carro</span><div class="gv-t"><i style="width:'+(m.possui.pct||0)+'%;background:'+DARK+'"></i></div><b>'+pct(m.possui.pct)+'</b></div>'
+    +(gap>=10?'<div class="gv-gap">Diferença de <b>'+fx(gap)+' pontos</b>: parte do público depende do carro por meio de carro familiar, aluguel, assinatura ou outras formas de acesso.</div>':'')
+    +'</div>'+(m.n<30?'<p class="small">Base pequena — resultado indicativo.</p>':'')+'</div>';
+  h+='<div class="guide"><div class="guide-k">A pergunta que orienta o dashboard</div><p>Como diferentes perfis da Geração X garantem acesso à mobilidade e qual papel <b>financiamento, aluguel, assinatura e novas soluções</b> podem desempenhar?</p><div class="chain">'+['Perfil','Contexto','Dependência','Comportamento','Decisão financeira','Relacionamento','Oportunidade','Ação'].map(function(x){return '<span>'+x+'</span>';}).join('<i>→</i>')+'</div></div>';
+  h+=kpis([
+    kp('Respostas válidas',valid,'de '+ALL.length+' recebidas · global'),
+    kp('Meta atingida',pct(Math.min(pmeta,100)),valid+' de '+META_TOTAL+' · global'),
+    kp('IDA médio',fx(m.ida.mean),'0–100 · n conhecido = '+m.ida.n),
+    kp('Alta dependência do carro',fmtPctN(m.idaAlta),'IDA ≥ 67 · n = '+m.idaAlta.n),
+    kp('Possui carro',fmtPctN(m.possui),'n = '+m.possui.n),
+    kp('Usa carro regularmente',fmtPctN(m.usa),'n = '+m.usa.n),
+    kp('Alta propensão a financiar',fmtPctN(m.finAlta),'score ≥ 75 · n = '+m.finAlta.n),
+    kp('Readiness EV alta',fmtPctN(m.evAlta),'n = '+m.evAlta.n,'green')
+  ]);
+  var ins=[];
+  if(fA.n&&fB.n&&fA.mean-fB.mean>=10) ins.push(['Dependência e financiamento andam juntos',fx(fA.mean)+' × '+fx(fB.mean),'score de financiar com IDA alto × IDA baixo/médio (n = '+fA.n+' e '+fB.n+').']);
+  if(flexN!=null&&flexO!=null&&flexN-flexO>=10) ins.push(['Quem não tem carro olha para o acesso flexível',fx(flexN)+' × '+fx(flexO),'score médio de assinatura/aluguel entre não proprietários × proprietários.']);
+  var fr=groupMean(ROWS,C.renda,C.prop['Financiar um carro'],ORD.renda).filter(function(g){return g.n>=8;}).sort(function(a,b){return b.value-a.value;});
+  if(fr.length>1&&fr[0].value-fr[fr.length-1].value>=15) ins.push(['A renda muda o papel do crédito',fx(fr[0].value)+' × '+fx(fr[fr.length-1].value),'score de financiar em '+fr[0].label+' × '+fr[fr.length-1].label+'.']);
+  ins.push(['Espaço entre não clientes',pct(m.ncFin.pct),'dos não clientes com informação considerariam financiar com o Santander ('+m.ncFin.k+' de '+m.ncFin.n+').']);
+  h+=sec('Principais achados dos cruzamentos')+'<div class="grid">'+ins.slice(0,4).map(function(c){ return '<div class="card c3 ins"><h4>'+c[0]+'</h4><div class="big">'+c[1]+'</div><p>'+c[2]+'</p></div>'; }).join('')+'</div>';
+  // Monitoramento (preservado)
+  h+=sec('Monitoramento da coleta · meta e cotas são globais')+'<div class="grid">';
+  h+='<div class="card c4"><div class="card-h"><div><h3>'+(pmeta>=100?'Meta de coleta atingida':'Coleta em '+pct(pmeta)+' da meta')+'</h3><p class="sub">Respostas elegíveis × meta de '+META_TOTAL+'</p></div></div>'
+    +'<div class="bar big" role="progressbar" aria-valuenow="'+Math.round(pmeta)+'" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da coleta"><i style="width:'+Math.min(100,pmeta).toFixed(1)+'%"></i></div>'
+    +'<div class="stats"><div><b>'+ALL.length+'</b><span>recebidas</span></div><div><b>'+valid+'</b><span>elegíveis</span></div><div><b>'+(ALL.length-valid)+'</b><span>fora do perfil</span></div><div><b>'+META_TOTAL+'</b><span>meta</span></div><div><b class="red">'+q.rem+'</b><span>restantes nas cotas</span></div></div>'
+    +'<p class="note">“Válida” = elegível ao perfil (45–61 anos, município de São Paulo), não veracidade comprovada.'+dupNote()+'</p></div>';
+  h+=card('c4','Meta × realizado por região','Respostas elegíveis · clique para filtrar',null,chartDiv('metaReg',0,function(){
+    groupBars('metaReg',REGIONS,[{name:'Realizado',color:RED,data:REGIONS.map(function(r){return q.real[r][0]+q.real[r][1]+q.real[r][2];}),fmt:function(x){return x;}},{name:'Meta',color:'#D6D6D6',data:REGIONS.map(function(r){return QUOTA[r][0]+QUOTA[r][1]+QUOTA[r][2];}),fmt:function(x){return x;}}],{onClick:function(cat){setFilter('regiao',cat);},tip:function(i){ var r=REGIONS[i]; return r+': '+(q.real[r][0]+q.real[r][1]+q.real[r][2])+' de '+(QUOTA[r][0]+QUOTA[r][1]+QUOTA[r][2])+' · clique para filtrar'; }});
+  }));
+  var hr=REGIONS.map(function(r){ return {label:r,n:0,cells:[0,1,2].map(function(k){ var real=q.real[r][k], meta=QUOTA[r][k], rest=Math.max(0,meta-real), p=meta?Math.min(100,real/meta*100):100;
+    return {pct:p,count:real,text:real+'/'+meta+(rest===0?' ✓':''),title:r+' '+sh(AGES[k])+': '+real+' de '+meta+(rest?' · faltam '+rest:' · cota completa'),bg:rest===0?'#E8F5EC':'rgba(236,0,0,'+(0.05+(1-p/100)*0.5).toFixed(3)+')',fg:rest===0?'#185C2C':(p<40?'#fff':'#1F1F1F')}; })}; });
+  h+=card('c4',q.rem?'Faltam '+q.rem+' respostas, concentradas em '+topGaps(q,1):'Todas as cotas completas','Realizado / meta por região × idade · ✓ = cota completa',null,heatTable(hr,['45–49','50–54','55–61'],{noN:true}));
+  h+='</div>';
+  return h;
+};
+function avgFlex(rows){ var s=0,k=0; FLEX.forEach(function(key){ var mm=pm(rows,key); if(mm.n){ s+=mm.mean; k++; } }); return k?s/k:null; }
+function topGaps(q,k){ var g=[]; REGIONS.forEach(function(r){ for(var j=0;j<3;j++){ var d=QUOTA[r][j]-q.real[r][j]; if(d>0) g.push({l:r+' '+sh(AGES[j]),d:d}); } }); g.sort(function(a,b){return b.d-a.d;}); return g.slice(0,k||3).map(function(x){return x.l;}).join(', '); }
+function dupNote(){ var d=0; ALL.forEach(function(r){ if(v(r,C.dup).indexOf('Revisar')===0) d++; }); return d?' '+d+' linhas com carimbo repetido estão sinalizadas (não excluídas).':''; }
+
+/* ---------- 2. Perfil ---------- */
+R.perfil=function(m){
+  var age=dist(ROWS,C.idade,AGES), reg=dist(ROWS,C.regiao,REGIONS), ren=dist(ROWS,C.renda,ORD.renda), pro=dist(ROWS,C.prof);
+  var a0=age.items.length?maxIt(age):null, r0=reg.items.length?maxIt(reg):null;
+  var rk=ren.items.filter(function(i){return i.key!=='Prefiro não informar';}).sort(function(x,y){return y.count-x.count;})[0], p0=pro.items[0];
+  var h=headline('O recorte concentra-se na faixa de '+a0.label+' anos ('+pct(a0.pct)+') e na '+r0.label+' ('+pct(r0.pct)+'). Essas características funcionam, nas próximas abas, como <b>segmentadores analíticos</b>.');
+  h+=kpis([kp('Base analisada',m.n,'respostas válidas no recorte'),kp('Faixa etária predominante',a0?a0.label+' anos':'—',a0?pct(a0.pct)+' da base':''),kp('Renda predominante',rk?rk.label:'—',rk?pct(rk.pct)+' · n = '+ren.n:''),kp('Situação mais comum',p0?p0.label:'—',p0?pct(p0.pct)+' · n = '+pro.n:'')]);
+  h+='<div class="grid">';
+  h+=card('c4','Faixa etária','% da base · clique para filtrar',age.n,chartDiv('pAge',0,function(){ vbar('pAge',age.items,{onClick:function(it){setFilter('idade',it.key);}}); }));
+  h+=card('c4',r0.label+' concentra a maior parte das respostas','% da base · clique para filtrar',reg.n,chartDiv('pReg',0,function(){ hbar('pReg',reg.items,{onClick:regionClick,color:hl([r0.key])}); }));
+  h+=card('c4','Renda familiar mensal','% da base · clique para filtrar',ren.n,chartDiv('pRen',0,function(){ hbar('pRen',ren.items,{onClick:function(it){setFilter('renda',it.key);}}); }));
+  h+=card('c6','Situação profissional','% da base · clique para filtrar',pro.n,chartDiv('pPro',0,function(){ hbar('pPro',pro.items,{onClick:function(it){setFilter('prof',it.key);}}); }));
+  var cr=cross(ROWS,C.regiao,C.idade,REGIONS,AGES).map(function(r){ var tot=ROWS.length; return {label:r.key,n:r.n,cells:r.cells.map(function(c,i){ return {count:c.count,pct:tot?c.count/tot*100:0,text:c.count,title:r.key+', '+sh(AGES[i])+': '+c.count+' respostas'}; })}; });
+  h+=card('c6','Região × idade','Número de respostas · cor mais forte = maior peso na base',ROWS.length,heatTable(cr,['45–49','50–54','55–61'],{scale:25}));
+  h+='</div>';
+  h+=impl(['Maior concentração em '+a0.label+' anos e na '+r0.label+', com predominância de '+lc(p0?p0.label:'')+' e renda '+lc(rk?rk.label:'')+'.',
+    'Idade, região, renda e situação profissional serão usadas como <b>variáveis explicativas</b> nas próximas abas, para verificar diferenças em dependência do automóvel, intenção de compra, financiamento, aluguel e adoção de EV. '+(m.n<30?'Base pequena: o resultado é indicativo.':'A amostra é por cotas, não probabilística.'),
+    'Personalizar oferta (parcela, prazo, canal) por perfil, sem tratar a geração como um bloco único.']);
+  return h;
+};
+
+/* ---------- 3. Mobilidade e IDA ---------- */
+R.mobilidade=function(m){
+  var bands=dist(ROWS,C.faixaIda,ORD.ida,['Sem informação']);
+  var by=state.opt.idaBy; if(['regiao','renda','idade'].indexOf(by)<0) by=state.opt.idaBy='regiao';
+  var gi=by==='regiao'?C.regiao:by==='renda'?C.renda:C.idade, ord=by==='regiao'?REGIONS:by==='renda'?ORD.renda:AGES;
+  var gm=groupMean(ROWS,gi,C.ida,ord), gs=gm.filter(function(g){return g.n>=5;}).sort(function(a,b){return b.value-a.value;}), anySmall=gm.some(function(g){return g.n<10;});
+  var spread=gs.length>1?gs[0].value-gs[gs.length-1].value:0;
+  var tempo=dist(ROWS,C.tempo,ORD.tempo,['Não sei estimar']), fat=multi(ROWS,C.fatores,MS.fatores), alt=multi(ROWS,C.alt,MS.alt);
+  var tc=share(ROWS,C.acessoTC,function(x){return x===1;});
+  var h=headline('A dependência do automóvel não deve ser interpretada apenas como preferência: ela pode refletir uma combinação de <b>território, tempo de deslocamento, segurança, conveniência e necessidades familiares ou profissionais</b>.');
+  h+='<div class="chain big"><span>Território</span><i>+</i><span>Rotina</span><i>+</i><span>Alternativas</span><i>→</i><span class="on">Dependência (IDA)</span><i>→</i><span class="on">Decisão de mobilidade</span></div>';
+  h+=kpis([kp('IDA médio',fx(m.ida.mean),'0–100 · n conhecido = '+m.ida.n),kp('Alta dependência',fmtPctN(m.idaAlta),'IDA ≥ 67 · n = '+m.idaAlta.n),kp('Usa carro regularmente',fmtPctN(m.usa),'n = '+m.usa.n),kp('Acessa transporte coletivo a pé',fmtPctN(tc),'ônibus, metrô ou trem · n = '+tc.n)]);
+  // Leituras sobre o uso do carro (substituem as listas de respostas)
+  var conv=anyOf(ROWS,C.fatores,['Conforto e praticidade','Segurança nos deslocamentos']), lack=anyOf(ROWS,C.fatores,['Pouca disponibilidade de transporte','pouco disponível nos horários','Longo tempo de deslocamento']);
+  var longT=tempo.items.filter(function(i){ return ['De 1 a 2 horas','De 2 a 3 horas','Mais de 3 horas'].indexOf(i.key)>=0; }).reduce(function(a,i){return a+i.pct;},0);
+  var carLike=anyOf(ROWS,C.alt,['Aplicativos de transporte','Táxi','Alugar outro carro','Carona']), pubAlt=anyOf(ROWS,C.alt,['Metrô','Ônibus','Trem/CPTM']);
+  var f0=fat.items[0];
+  h+=sec('O que parece estar associado à dependência')+'<div class="grid">';
+  var convWins=conv.any-lack.any>=10;
+  h+=readCard('c6',convWins?'Conveniência e segurança pesam mais que a falta de opção':'Conveniência e limitações do transporte público aparecem lado a lado',f0?pct(f0.pct):'—',(f0?f0.label+' é o fator mais citado. ':'')+'Conveniência/segurança: '+pct(conv.any)+' citam ao menos um; falta de transporte público: '+pct(lack.any)+'.',convWins?'O carro parece ser escolhido pelo conforto, pela sensação de segurança e pelo controle do tempo, e não só pela falta de alternativa.':'A dependência parece combinar escolha (conforto, segurança) e restrição (oferta e tempo do transporte público): as duas dimensões precisam ser consideradas.',fat.n,'mFat',fat.items.slice(0,5));
+  h+=readCard('c6','Deslocamentos longos tornam o tempo um ativo',pct(longT),'passam 1 hora ou mais por dia se deslocando; '+pct(tempo.items.filter(function(i){return i.key==='Varia muito de um dia para outro';}).map(function(i){return i.pct;})[0]||0)+' têm rotina variável.','Rotinas longas ou imprevisíveis podem aumentar o valor de ter um carro disponível.',tempo.n);
+  h+=readCard('c6','Ter transporte por perto não elimina o uso do carro',pct(tc.pct),'têm ônibus, metrô ou trem a uma caminhada de casa, e ainda assim '+pct(m.usa.pct)+' usam carro regularmente.','A dependência não se explica só por infraestrutura: rotina, família e conforto parecem pesar na decisão.',tc.n);
+  h+=readCard('c6','Sem carro, a preferência seria por serviços parecidos com o carro',pct(carLike.any),'trocariam por aplicativo, táxi, carona ou outro carro; '+pct(pubAlt.any)+' citam metrô, ônibus ou trem.','O público valoriza o modelo “porta a porta”: soluções flexíveis de acesso ao carro podem substituir parte da propriedade.',alt.n);
+  h+='</div>';
+  // IDA por grupo (preservado) + IDA × soluções
+  h+=sec('Quem depende mais do carro e o que isso muda na decisão')+'<div class="grid">';
+  h+=card('c4','A maior parte está em dependência '+(bands.items.length?lc(maxIt(bands).label):'—'),'% por faixa de IDA · clique para filtrar',bands.n,chartDiv('mBand',0,function(){ vbar('mBand',bands.items,{color:function(d){return d.key==='Alta'?RED:d.key==='Média'?RED2:'#F0B998';},onClick:function(it){setFilter('faixaIda',it.key);}}); }));
+  var byName={regiao:'regiões',renda:'faixas de renda',idade:'faixas etárias'}[by];
+  h+='<div class="card c8"><div class="card-h"><div><h3>'+(spread>=10?'A dependência do automóvel varia entre '+byName:'IDA médio é próximo entre '+byName)+'</h3><p class="sub">IDA médio (0–100) · n conhecido em cada grupo'+(by==='regiao'?' · clique para filtrar':'')+'</p>'+smallWarn(m.ida.n)+'</div>'+seg('idaBy',[['regiao','Região'],['renda','Renda'],['idade','Idade']])+'</div>'
+    +chartDiv('mBy',0,function(){ hbar('mBy',gm.map(function(g){return {key:g.key,label:g.label,value:g.value,n:g.n,tip:g.label+': IDA médio '+fx(g.value)+' · n = '+g.n};}),{fmt:function(x){return fx(x);},max:100,sub:function(d){return 'n = '+d.n;},color:hl(gs.length?[gs[0].key]:[]),onClick:by==='regiao'?regionClick:null}); })
+    +(anySmall?'<p class="small">Grupos com n < 10 são indicativos; comparações consideram só grupos com n ≥ 5.</p>':'')+'<p class="note">Como interpretar: valores mais próximos de 100 indicam maior dependência do automóvel. O IDA é exploratório e mostra associações, não causas.</p></div>';
+  var bandsR=ORD.ida.map(function(b){ return {b:b,rows:onlyCat(ROWS,'faixaIda',b)}; }).filter(function(x){return x.rows.length;});
+  var cols=bandsR.map(function(x){return {l:'IDA '+lc(x.b),n:x.rows.length};});
+  var rowsT=PROP_KEYS.filter(function(p){return p[0]!=='Adquirir meu primeiro carro';}).map(function(p){ return {l:p[1],vals:bandsR.map(function(x){ var mm=pm(x.rows,p[0]); return mm.n?mm.mean:null; })}; });
+  var fA=pm(onlyCat(ROWS,'faixaIda','Alta'),'Financiar um carro'), fL=pm(onlyCat(ROWS,'faixaIda','Baixa'),'Financiar um carro'), fM=pm(onlyCat(ROWS,'faixaIda','Média'),'Financiar um carro');
+  var finUp=fA.n&&fL.n&&fA.mean-fL.mean>=10;
+  h+='<div class="card c12"><div class="card-h"><div><h3>'+(finUp?'Maior dependência está associada a maior propensão ao financiamento':'Quanto maior a dependência, muda a solução considerada?')+'</h3><p class="sub">Score médio de propensão (0–100) por faixa de IDA · em destaque, o maior valor de cada linha quando a diferença é de 10 pontos ou mais</p>'+smallWarn(Math.min.apply(null,cols.map(function(c){return c.n;})))+'</div></div>'
+    +ctable(cols,rowsT,{note:'Só entram respondentes com IDA calculável (n = '+m.ida.n+'). Faixas com n < 30 são indicativas.'})
+    +(finUp?insightBox('Score de financiar: IDA alto '+fx(fA.mean)+' (n = '+fA.n+') × IDA baixo '+fx(fL.mean)+' (n = '+fL.n+')'+(fM.n?' · médio '+fx(fM.mean):'')+'.','Para quem depende mais do carro, garantir continuidade de acesso ao veículo pode ter maior relevância.','O financiamento pode ser entendido não só como produto de compra, mas como <b>mecanismo de manutenção da mobilidade</b>.'):'')+'</div>';
+  h+='</div>';
+  h+=impl([m.ida.n?'IDA médio de '+fx(m.ida.mean)+' (n = '+m.ida.n+'), com '+pct(m.idaAlta.pct)+' em faixa alta; conveniência e segurança lideram os fatores citados.':'—',
+    'A dependência combina território, rotina e alternativas disponíveis, e se reflete na solução de mobilidade considerada.',
+    'Perfis de maior dependência podem ter maior relevância para soluções de aquisição, renovação e serviços que garantam a continuidade do acesso ao veículo.']);
+  return h;
+};
+function anyOf(rows,col,keys){ var n=0,k=0; rows.forEach(function(r){ var x=v(r,col); if(!x) return; n++; if(keys.some(function(s){return x.indexOf(s)>=0;})) k++; }); return {any:n?k/n*100:0,n:n}; }
+function readCard(cls,title,big,evid,meaning,n){
+  return '<div class="card rcard '+cls+'"><div class="card-h"><div><h3>'+title+'</h3>'+smallWarn(n)+'</div><span class="ntag">n = '+n+'</span></div><div class="rc-b"><div class="big">'+big+'</div><p>'+evid+'</p></div><div class="rc-m"><span>O que pode significar</span>'+meaning+'</div></div>';
+}
+
+/* ---------- 4. Relação com Veículos ---------- */
+R.veiculos=function(m){
+  var per=dist(ROWS,C.perfil,ORD.perfil), tipo=dist(ROWS,C.tipo,null,['Não sei informar']), mot=dist(ROWS,C.motor,['Combustão','Híbrido','Elétrico'],['Não sei informar']), ren=dist(ROWS,C.renov,ORD.renov), custo=dist(ROWS,C.custo,ORD.custo,['Não sei estimar']);
+  var g=function(keys){ return per.items.filter(function(i){return keys.indexOf(i.key)>=0;}).reduce(function(a,i){return a+i.pct;},0); };
+  var A=g(['Proprietário de 1 carro','Proprietário de 2 ou mais']), Bx=g(['Carro de familiar','Assinatura','Aluguel de longo prazo']), Cx=g(['Aluguel eventual']), Dx=g(['Não usa carro']);
+  var qtd=mean(ROWS.filter(function(r){return num(r,C.possui)===1;}),C.qtd), alto=shareCat(ROWS,C.renov,'Alto'), c0=custo.items.length?maxIt(custo):null;
+  var gap=(m.usa.pct||0)-(m.possui.pct||0);
+  var own=ROWS.filter(function(r){return num(r,C.possui)===1;}), non=ROWS.filter(function(r){return num(r,C.possui)===0;});
+  var nonUse=non.filter(function(r){return num(r,C.usa)===1;});
+  var buy=avgOf(nonUse,['Adquirir meu primeiro carro','Financiar um carro']), flx=avgFlex(nonUse);
+  var answer = buy!=null&&flx!=null ? (flx-buy>=5?'preferem manter um <b>modelo flexível</b> de acesso (score '+fx(flx)+') a comprar (score '+fx(buy)+')':(buy-flx>=5?'tendem mais a <b>comprar</b> (score '+fx(buy)+') do que a manter acesso flexível ('+fx(flx)+')':'dividem-se entre comprar ('+fx(buy)+') e manter acesso flexível ('+fx(flx)+')')) : 'não têm dados suficientes neste recorte';
+  var h=headline(pct(m.usa.pct)+' usam carro regularmente, mas só '+pct(m.possui.pct)+' são proprietários'+(gap>=10?': o acesso vai além da propriedade.':'.'));
+  h+=kpis([kp('Usa carro regularmente',fmtPctN(m.usa),'n = '+m.usa.n),kp('Possui carro',fmtPctN(m.possui),'n = '+m.possui.n,'accent'),kp('Carros por proprietário',fx(qtd.mean,1),'média · n = '+qtd.n),kp('Potencial de renovação alto',fmtPctN(alto),'intenção declarada ≥ 75 · n = '+alto.n)]);
+  h+='<div class="grid">';
+  h+='<div class="card c7"><div class="card-h"><div><h3>Três formas de acesso ao automóvel</h3><p class="sub">% por forma de acesso ao veículo principal · clique em uma forma para filtrar</p></div><span class="ntag">n = '+per.n+'</span></div>'
+    +'<div class="stackbar" role="img" aria-label="Composição das formas de acesso">'+[[A,'Propriedade',RED],[Bx,'Acesso recorrente sem propriedade',RED2],[Cx,'Uso eventual','#F0B998'],[Dx,'Não usa carro',GREY]].filter(function(x){return x[0]>0;}).map(function(x){ return '<i style="width:'+x[0]+'%;background:'+x[2]+'" data-tip="'+esc(x[1]+': '+pct(x[0]))+'"></i>'; }).join('')+'</div>'
+    +'<div class="acc3"><div><span class="sw" style="background:'+RED+'"></span><b>A · Propriedade</b><div class="big">'+pct(A)+'</div><p>1 carro ou mais · '+fx(qtd.mean,1)+' carro(s) por proprietário</p></div>'
+    +'<div><span class="sw" style="background:'+RED2+'"></span><b>B · Acesso recorrente sem propriedade</b><div class="big">'+pct(Bx)+'</div><p>carro de familiar, assinatura ou aluguel de longo prazo</p></div>'
+    +'<div><span class="sw" style="background:#F0B998"></span><b>C · Uso eventual</b><div class="big">'+pct(Cx)+'</div><p>aluguel quando necessário · '+pct(Dx)+' não usam carro</p></div></div>'
+    +chartDiv('vPer',0,function(){ hbar('vPer',per.items,{onClick:function(it){setFilter('perfil',it.key);},color:function(d){return d.key.indexOf('Proprietário')===0?RED:d.key==='Aluguel eventual'?'#F0B998':d.key==='Não usa carro'?GREY:RED2;}}); })+'</div>';
+  h+='<div class="card c5 callout"><div class="eyebrow">Quem usa carro sem possuir</div><div class="big">'+nonUse.length+'</div><p>respondentes usam carro regularmente sem ser proprietários. Eles <b>'+answer+'</b>.</p><p class="sub">Comprar = média de “1º carro” e “financiar” · flexível = média de assinatura e aluguéis (scores 0–100)</p>'+smallWarn(nonUse.length)+'</div>';
+  h+='</div>';
+  // Posse × propensão
+  var cols=[{l:'Proprietários',n:own.length},{l:'Não proprietários',n:non.length}];
+  var keys=['Manter o carro que já utilizo','Substituir meu carro atual','Adquirir meu primeiro carro','Financiar um carro','Utilizar carro por assinatura','Utilizar aluguel de longo prazo','Alugar carro apenas quando necessário'];
+  var rowsT=keys.map(function(k){ var lab=PROP_KEYS.filter(function(p){return p[0]===k;})[0][1]; return {l:lab,vals:[own,non].map(function(rs){ var mm=pm(rs,k); return mm.n?mm.mean:null; })}; });
+  var mO=pm(own,'Manter o carro que já utilizo').mean, sO=pm(own,'Substituir meu carro atual').mean, fN=avgFlex(non), fO=avgFlex(own);
+  h+=sec('Posse × intenção futura')+'<div class="grid"><div class="card c7"><div class="card-h"><div><h3>'+(fN!=null&&fO!=null&&fN-fO>=10?'Não proprietários olham mais para assinatura e aluguel':'Proprietários e não proprietários pensam o futuro de forma diferente?')+'</h3><p class="sub">Score médio de propensão (0–100) · destaque no maior valor da linha (diferença ≥ 10)</p></div></div>'
+    +ctable(cols,rowsT)+'</div>';
+  h+='<div class="card c5"><div class="card-h"><div><h3>Leitura</h3></div></div><ul class="list">'
+    +'<li><b>Proprietários:</b> manter ('+fx(mO)+') e substituir ('+fx(sO)+') lideram, o que indica um ciclo de manutenção e renovação.</li>'
+    +'<li><b>Não proprietários:</b> assinatura e aluguel somam score médio '+fx(fN)+', contra '+fx(fO)+' entre proprietários.</li>'
+    +'<li>Isso separa duas portas de entrada: <b>renovação</b> para quem tem carro e <b>acesso flexível ou primeira compra</b> para quem não tem.</li></ul></div></div>';
+  h+=sec('Frota, custo e renovação')+'<div class="grid">';
+  h+=card('c4',tipo.items.length?maxIt(tipo).label+' é o tipo mais citado':'Tipo de veículo','% de quem informou',tipo.n,chartDiv('vTipo',0,function(){ hbar('vTipo',tipo.items,{color:hl(tipo.items.length?[maxIt(tipo).key]:[])}); }));
+  h+=card('c4','Custo mensal para manter o carro','% de quem informou · exclui “não sei”',custo.n,chartDiv('vCusto',0,function(){ hbar('vCusto',custo.items,{color:hl(c0?[c0.key]:[])}); }));
+  h+=card('c4','Potencial de renovação','Só intenção declarada de substituir · não é previsão de compra',ren.n,chartDiv('vRen',0,function(){ hbar('vRen',ren.items,{color:function(d){return d.key==='Alto'?RED:d.key==='Intermediário'?RED2:GREY;}}); })+'<p class="sub" style="margin-top:12px">Motorização: '+mot.items.map(function(i){return i.label+' '+pct(i.pct);}).join(' · ')+' (n = '+mot.n+')</p>');
+  h+='</div>';
+  h+=impl(['Uso regular ('+pct(m.usa.pct)+') supera a propriedade ('+pct(m.possui.pct)+'); '+pct(Bx)+' acessam o carro de forma recorrente sem ser donos.',
+    'O público depende do carro, mas não necessariamente da propriedade: proprietários pensam em manter e renovar; não proprietários, em acesso flexível.',
+    'Duas ofertas distintas: <b>renovação com financiamento</b> para proprietários e <b>assinatura, aluguel ou primeira compra</b> para quem usa sem possuir.']);
+  return h;
+};
+function avgOf(rows,keys){ var s=0,k=0; keys.forEach(function(key){ var mm=pm(rows,key); if(mm.n){ s+=mm.mean; k++; } }); return k?s/k:null; }
+
+/* ---------- 5. Propensão ---------- */
+R.propensao=function(m){
+  var p0=m.props[0], p1=m.props[1], finRank=m.props.map(function(p){return p.key;}).indexOf('Financiar um carro')+1;
+  var minN=m.props.length?Math.min.apply(null,m.props.map(function(p){return p.n;})):0;
+  var h=headline('A alternativa de maior score é <b>'+lc(p0.label)+'</b> ('+fx(p0.value)+'), seguida de '+lc(p1.label)+' ('+fx(p1.value)+'). Mas <b>o score médio esconde comportamentos diferentes entre segmentos</b>.');
+  h+=kpis([kp('Maior score',p0.label,fx(p0.value)+' / 100'),kp('Score médio · financiar',fx(m.finP.mean),finRank+'º no ranking · n = '+m.finP.n),kp('Alta propensão a financiar',fmtPctN(m.finAlta),'score ≥ 75 · n = '+m.finAlta.n)]);
+  h+='<div class="grid">';
+  h+=card('c5','Ranking de intenção para os próximos 3 anos','Score médio 0–100 (improvável = 0 … muito provável = 100) · à direita, % com alta propensão (≥ 75)',minN,chartDiv('prRank',0,function(){ hbar('prRank',m.props.map(function(p){return {key:p.key,label:p.label,value:p.value,alta:p.alta,n:p.n,tip:p.label+': score '+fx(p.value)+' · '+pct(p.alta)+' com alta propensão · n = '+p.n};}),{fmt:function(x){return fx(x);},max:100,sub:function(d){return pct(d.alta)+' alta';},color:function(d){return d.key==='Financiar um carro'?DARK:(topK(m.props,3).indexOf(d.key)>=0?RED:GREY);}}); }));
+  // Idade × soluções
+  var ages=AGES.map(function(a){ return {a:a,rows:onlyCat(ROWS,'idade',a)}; }).filter(function(x){return x.rows.length;});
+  var ageRows=[{l:'IDA médio',vals:ages.map(function(x){ var mm=mean(x.rows,C.ida); return mm.n?mm.mean:null; }),hint:'0–100'}]
+    .concat(['Manter o carro que já utilizo','Substituir meu carro atual','Financiar um carro','Utilizar carro por assinatura','Utilizar aluguel de longo prazo'].map(function(k){ return {l:PROP_KEYS.filter(function(p){return p[0]===k;})[0][1],vals:ages.map(function(x){ var mm=pm(x.rows,k); return mm.n?mm.mean:null; }),hint:'score'}; }))
+    .concat([{l:'Readiness EV alta',vals:ages.map(function(x){ return evAlta(x.rows).pct; }),fmt:function(x){return pct(x);},hint:'%'}]);
+  var spreads=ageRows.map(function(r){ var a=r.vals.filter(function(x){return x!=null;}); return a.length>1?Math.max.apply(null,a)-Math.min.apply(null,a):0; });
+  var maxSp=Math.max.apply(null,spreads), bigRow=ageRows[spreads.indexOf(maxSp)];
+  var rs=groupMean(ROWS,C.renda,C.prop['Financiar um carro'],ORD.renda).filter(function(g){return g.n>=8;}).map(function(g){return g.value;}), rSpread=rs.length>1?Math.max.apply(null,rs)-Math.min.apply(null,rs):0;
+  var ageMsg = maxSp<10 ? 'As diferenças entre faixas são pequenas (até '+fx(maxSp)+' pontos): <b>idade isoladamente parece explicar menos o comportamento</b> do que renda, território ou dependência.' : 'A maior diferença entre faixas está em <b>'+lc(bigRow.l)+'</b> ('+fx(maxSp)+' pontos)'+(rSpread>maxSp?', mas ela é menor que a diferença por renda no financiamento ('+fx(rSpread)+' pontos): <b>idade parece pesar menos que renda</b>.':'.');
+  h+='<div class="card c7"><div class="card-h"><div><h3>As faixas da Geração X apresentam comportamentos diferentes?</h3><p class="sub">Indicador × faixa etária · destaque no maior valor da linha (diferença ≥ 10)</p></div></div>'+ctable(ages.map(function(x){return {l:sh(x.a),n:x.rows.length};}),ageRows)+'<p class="read-line">'+ageMsg+'</p></div>';
+  h+='</div>';
+  // Matriz territorial
+  var pts=REGIONS.map(function(rg){ var rr=onlyCat(ROWS,'regiao',rg), ida=mean(rr,C.ida), fin=pm(rr,'Financiar um carro'); return ida.n&&fin.n?{key:rg,label:rg.replace('Zona ',''),x:ida.mean,y:fin.mean,n:rr.length,nI:ida.n}:null; }).filter(Boolean);
+  var xm=m.ida.mean||50, ym=m.finP.mean||50;
+  var strong=pts.filter(function(p){return p.nI>=5&&p.x>=xm&&p.y>=ym;});
+  h+=sec('Matriz territorial de oportunidade')+'<div class="grid"><div class="card c8"><div class="card-h"><div><h3>'+(strong.length?listJoin(strong.map(function(p){return p.label==='Centro'?'Centro':'Zona '+p.label;}))+' combina'+(strong.length>1?'m':'')+' dependência e propensão acima da média':'Dependência × propensão a financiar por região')+'</h3><p class="sub">Eixo X: IDA médio · eixo Y: score de financiar · tamanho = n de respostas · linhas = média do recorte · clique para filtrar</p></div></div>'
+    +chartDiv('prMap',0,function(){ scatter('prMap',pts,{xmin:20,xmax:90,ymin:0,ymax:80,xm:xm,ym:ym,xl:'IDA médio',yl:'Propensão a financiar',minN:10,q:['Alta relevância potencial','Componente aspiracional ou de renovação','Dependência com barreiras','Menor oportunidade imediata'],aria:'Matriz territorial',onClick:function(p){setFilter('regiao',p.key);}}); })
+    +'<p class="small">Círculos tracejados = menos de 10 respostas com IDA calculável (indicativo). Entre parênteses, o n do IDA.</p></div>';
+  h+='<div class="card c4"><div class="card-h"><div><h3>Como ler os quadrantes</h3></div></div><ul class="list">'
+    +'<li><b>Alto IDA + alta propensão:</b> relevância potencial para financiamento e renovação.</li><li><b>Alto IDA + baixa propensão:</b> a dependência existe, mas outras barreiras podem limitar o crédito.</li><li><b>Baixo IDA + alta propensão:</b> possível componente aspiracional ou de renovação.</li><li><b>Baixo IDA + baixa propensão:</b> menor oportunidade imediata.</li></ul><p class="note">Associação no recorte, não causalidade territorial.</p></div></div>';
+  h+=impl(['Manter, trocar e combinar meios lideram a média; financiar tem score '+fx(m.finP.mean)+'.',
+    ageMsg.replace(/<\/?b>/g,'')+' Por região, a combinação de dependência e propensão muda o tipo de oportunidade.',
+    'Segmentar a oferta por renda, dependência e posse do carro, não só por idade; priorizar regiões no quadrante de alta relevância, sem tratar território como causa.']);
+  return h;
+};
+
+/* ---------- 6. Financiamento ---------- */
+R.financiamento=function(m){
+  var top=m.fin.slice(0,4), grp=function(keys){ var a=m.fin.filter(function(f){return keys.indexOf(f.key)>=0;}); return a.length?a.reduce(function(s,f){return s+f.value;},0)/a.length:null; };
+  var gPreco=grp(['Taxa de juros','Valor da entrada','Valor das parcelas','Prazo do financiamento']), gPrev=grp(['Clareza sobre o custo total','antecipar parcelas']), gCap=grp(['Rapidez na análise','Crédito pré-aprovado','Facilidade de contratação']);
+  var priceClarity=top.some(function(t){return /juros|parcelas|entrada/.test(t.key);})&&top.some(function(t){return /Clareza/.test(t.key);});
+  var minN=m.fin.length?Math.min.apply(null,m.fin.map(function(p){return p.n;})):0;
+  var h=headline(priceClarity?'A decisão financeira é formada por uma combinação de <b>preço, previsibilidade e capacidade de pagamento</b>.':'Os fatores de decisão têm relevância próxima: nenhum bloco isolado domina a escolha.');
+  h+=kpis([kp('Preço',fx(gPreco,1)+' / 5','juros, entrada, parcela e prazo'),kp('Previsibilidade',fx(gPrev,1)+' / 5','clareza do custo total e antecipação'),kp('Acesso ao crédito',fx(gCap,1)+' / 5','aprovação, pré-aprovado e facilidade')]);
+  h+='<div class="grid">';
+  h+=card('c5','O que pesa na escolha de um financiamento','Relevância média (1–5) · destaque nos 4 primeiros · à direita, % relevante+',minN,chartDiv('fRank',0,function(){ hbar('fRank',m.fin.map(function(p){return {key:p.key,label:p.label,value:p.value,top2:p.top2,n:p.n,tip:p.label+': média '+fx(p.value,1)+' · '+pct(p.top2)+' relevante+ · n = '+p.n};}),{fmt:function(x){return fx(x,1);},max:5,sub:function(d){return pct(d.top2);},color:hl(topK(m.fin,4))}); }));
+  // Renda → entrada → parcela → propensão
+  var rows=ORD.renda.map(function(k){ var rr=onlyCat(ROWS,'renda',k); if(!rr.length) return null;
+    var f=pm(rr,'Financiar um carro'), par=dist(rr,C.parcela,ORD.parcela,['Não sei informar / prefiro não responder']), ent=dist(rr,C.entrada,ORD.entrada,['Não sei informar / prefiro não responder']);
+    var parHi=par.items.filter(function(i){return ['De R$ 1.501 a R$ 2.000','De R$ 2.001 a R$ 3.000','Mais de R$ 3.000'].indexOf(i.key)>=0;}).reduce(function(a,i){return a+i.pct;},0);
+    var entHi=ent.items.filter(function(i){return ['De 21% a 30%','Mais de 30%'].indexOf(i.key)>=0;}).reduce(function(a,i){return a+i.pct;},0);
+    return {k:k,n:rr.length,f:f.n?f.mean:null,par:par.n?parHi:null,ent:ent.n?entHi:null,dv:desejoViab(rr)}; }).filter(Boolean);
+  var cols=rows.map(function(r){return {l:sh(r.k),n:r.n};});
+  var tRows=[{l:'Propensão a financiar',vals:rows.map(function(r){return r.f;}),hint:'score 0–100',thr:15},{l:'Parcela compatível ≥ R$ 1.501',vals:rows.map(function(r){return r.par;}),fmt:function(x){return pct(x);},hint:'% de quem informou',thr:15},{l:'Entrada aceitável ≥ 21%',vals:rows.map(function(r){return r.ent;}),fmt:function(x){return pct(x);},hint:'% de quem informou',thr:15}];
+  var known=rows.filter(function(r){return r.k!=='Prefiro não informar'&&r.f!=null&&r.n>=8;});
+  var lowR=known.filter(function(r){return RENDA_IDX[r.k]<=50;}), hiR=known.filter(function(r){return RENDA_IDX[r.k]>=75;});
+  var avg=function(a,k){ var x=a.map(function(r){return r[k];}).filter(function(v){return v!=null;}); return x.length?x.reduce(function(s,v){return s+v;},0)/x.length:null; };
+  var fLow=avg(lowR,'f'), fHi=avg(hiR,'f'), pLow=avg(lowR,'par'), pHi=avg(hiR,'par');
+  var rendaMsg = fLow!=null&&fHi!=null&&fLow-fHi>=15 ? 'Até 5 SM, a propensão a financiar é maior (score '+fx(fLow)+') do que acima de 5 SM ('+fx(fHi)+')'+(pLow!=null&&pHi!=null&&pHi-pLow>=10?', enquanto a parcela considerada compatível é menor ('+pct(pLow)+' × '+pct(pHi)+' aceitam R$ 1.501 ou mais)':'')+'. Nas rendas mais baixas, o crédito parece estar ligado a <b>viabilizar</b> a aquisição; nas mais altas, compra à vista, manutenção ou soluções flexíveis podem ganhar relevância.' : 'No recorte, a propensão a financiar não muda de forma clara entre faixas de renda.';
+  h+='<div class="card c7"><div class="card-h"><div><h3>'+(fLow!=null&&fHi!=null&&fLow-fHi>=15?'O financiamento não tem o mesmo papel em todas as faixas de renda':'O financiamento desempenha o mesmo papel em todas as faixas de renda?')+'</h3><p class="sub">Renda → entrada → parcela → propensão · destaque no maior valor da linha</p></div></div>'+ctable(cols,tRows)+'<p class="read-line">'+rendaMsg+'</p></div>';
+  h+='</div>';
+  // Desejo × viabilidade
+  var dv=desejoViab(ROWS);
+  h+=sec('Quem quer financiar consegue encaixar a contratação?')+'<div class="grid"><div class="card c7"><div class="card-h"><div><h3>Matriz desejo × viabilidade</h3><p class="sub">Desejo = score de financiar (≥ 50 = alto) · Viabilidade = índice exploratório de compatibilidade financeira (renda, parcela e entrada declaradas, 0–100; ≥ 50 = alta)</p>'+smallWarn(dv.n)+'</div><span class="ntag">n = '+dv.n+'</span></div>'
+    +quad([{t:'Investigar compra à vista ou outras soluções',d:'baixa propensão + alta capacidade',n:dv.c[0],pct:dv.p[0]},{t:'Oportunidade imediata',d:'alta propensão + alta compatibilidade',n:dv.c[1],pct:dv.p[1],hot:1},{t:'Menor prioridade imediata',d:'baixa propensão + baixa capacidade',n:dv.c[2],pct:dv.p[2]},{t:'Interesse existe, mas preço/condição limita',d:'alta propensão + baixa compatibilidade',n:dv.c[3],pct:dv.p[3]}],'Propensão a financiar','Compatibilidade financeira')+'</div>';
+  h+='<div class="card c5"><div class="card-h"><div><h3>Leitura da matriz</h3></div></div><ul class="list">'
+    +'<li><b>'+pct(dv.p[1])+'</b> combinam desejo e viabilidade: oportunidade imediata para financiamento.</li>'
+    +'<li><b>'+pct(dv.p[3])+'</b> querem financiar, mas declaram parcela, entrada ou renda mais baixas: prazo, entrada reduzida e custo total claro podem destravar.</li>'
+    +'<li><b>'+pct(dv.p[0])+'</b> têm capacidade, mas pouca intenção de financiar: investigar compra à vista, assinatura ou serviços.</li></ul><p class="note">Índice exploratório, não é análise de crédito.</p></div></div>';
+  h+=impl(['Os fatores mais relevantes são '+listJoin(m.fin.slice(0,3).map(function(t){return lc(t.label)+' ('+fx(t.value,1)+')';}))+'; '+pct(dv.p[1])+' estão no quadrante de oportunidade imediata.',
+    'A relevância de um fator mostra o que precisa estar visível na proposta; não indica aceitação de crédito. A renda muda o papel do financiamento.',
+    'Proposta com taxa, parcela e <b>custo total</b> lado a lado, e condições diferentes por segmento: prazo e entrada flexíveis para quem quer mas tem menor capacidade.']);
+  return h;
+};
+
+/* ---------- 7. Confiança e Jornada ---------- */
+R.confianca=function(m){
+  var j=journey(m), can=multi(ROWS,C.canais,MS.canais);
+  var minN=m.trust.length?Math.min.apply(null,m.trust.map(function(p){return p.n;})):0, t3=m.trust.slice(0,3);
+  var dep=avgK(m.stages.map(function(s){ return {n:s.n,dep:s.cells[6]?s.cells[6].pct:0}; }),'dep');
+  var ranked=m.stages.filter(function(s){return s.n;}).slice().sort(function(a,b){return a.hum-b.hum;});
+  var half=Math.floor(ranked.length/2), auto=ranked.slice(0,half), help=ranked.slice(ranked.length-half);
+  var h=headline(j.hybrid?'A questão não é digital versus físico: <b>a preferência de canal muda conforme a complexidade da etapa</b>.':'No recorte atual, a preferência de canal não muda de forma clara entre etapas simples e complexas.');
+  h+=kpis([kp('Atributo nº 1 para confiar',t3[0]?t3[0].label:'—',t3[0]?fx(t3[0].value,1)+' / 5 · '+pct(t3[0].top2)+' relevante+':''),kp('Apoio humano · pesquisar e simular',pct(j.humI),'média das duas etapas'),kp('Apoio humano · negociar a pós-venda',pct(j.humC),'média das três etapas'),kp('Canal digital mais citado',can.items[0]?can.items[0].label:'—',can.items[0]?pct(can.items[0].pct)+' · n = '+can.n:'')]);
+  h+='<div class="grid">';
+  h+='<div class="card c5"><div class="side-lbl">A · Atributos importantes para confiar em uma instituição</div><div class="card-h"><div><h3>'+(t3.length?uc(listJoin(t3.map(function(t){return lc(t.label);})))+' lideram':'Atributos de confiança')+'</h3><p class="sub">Importância (1–5) de cada atributo. <b>Não mede a confiança no Santander</b>. À direita, % relevante+.</p>'+smallWarn(minN)+'</div><span class="ntag">n ≥ '+minN+'</span></div>'
+    +chartDiv('tRank',0,function(){ hbar('tRank',m.trust.map(function(p){return {key:p.key,label:p.label,value:p.value,top2:p.top2,n:p.n,tip:p.label+': média '+fx(p.value,1)+' · '+pct(p.top2)+' relevante+ · n = '+p.n};}),{fmt:function(x){return fx(x,1);},max:5,sub:function(d){return pct(d.top2);},color:hl(topK(m.trust,3))}); })
+    +'<p class="read-line">Clareza, cumprimento das condições e acesso a atendimento humano podem funcionar como <b>redutores de risco percebido</b> em uma decisão financeira de maior valor.</p></div>';
+  var CH6=CHANNELS.slice(0,6), SR={'Tirar dúvidas':'Dúvidas','Pós-contratação':'Pós'};
+  var hs=m.stages.map(function(s){ return {label:s.label,short:SR[s.label],n:s.n,cells:s.cells.slice(0,6).map(function(c,i){ return Object.assign({},c,{title:s.label+' · '+CH6[i].l+': '+pct(c.pct)+' ('+c.count+' de '+s.n+')'}); })}; });
+  h+='<div class="card c7"><div class="side-lbl">B · Jornada</div><div class="card-h"><div><h3>'+(j.hybrid?'A preferência de canal muda conforme a complexidade da jornada':'Formato preferido em cada etapa')+'</h3><p class="sub">% de cada etapa · “depende da situação” (média '+pct(dep)+') fica fora do mapa</p>'+smallWarn(m.stages[0]?m.stages[0].n:0)+'</div><span class="ntag">n = '+(m.stages[0]?m.stages[0].n:0)+'</span></div>'
+    +heatTable(hs,CH6.map(function(c){return c.l;}),{scale:40,noN:true,compact:true,shortCols:['IA','App/ site','Dig. + hum.','Remoto','Conces.','Agência']})
+    +'<div class="duo"><div><span>Etapas de maior autonomia</span>'+auto.map(function(s){return '<b>'+s.label+'</b> ('+pct(s.hum)+' humano)';}).join(' · ')+'</div><div class="dark"><span>Etapas de maior necessidade de apoio</span>'+help.map(function(s){return '<b>'+s.label+'</b> ('+pct(s.hum)+' humano)';}).join(' · ')+'</div></div>'
+    +'<p class="note">Classificação pelos dados: etapas ordenadas pela preferência por apoio humano (digital + humano, remoto, concessionária ou agência).</p></div>';
+  h+='</div>';
+  h+=impl(['Os atributos mais valorizados são '+listJoin(t3.map(function(t){return lc(t.label);}))+'; o apoio humano vai de '+pct(j.humI)+' nas etapas informacionais a '+pct(j.humC)+' nas complexas.',
+    'A presença humana pode ser menos uma resistência à digitalização e mais uma forma de <b>reduzir incerteza</b> em momentos de maior complexidade.',
+    'Orquestrar digital e humano: autosserviço para pesquisar e simular, e passagem para um especialista na negociação, na contratação e no pós-venda.']);
+  return h;
+};
+
+/* ---------- 8. Instituições ---------- */
+R.instituicoes=function(m){
+  var san=m.banks[0];
+  function rank(k){ return m.banks.filter(function(b){return b[k].n>0;}).sort(function(a,b){return (b[k].pct||0)-(a[k].pct||0);}); }
+  var rc=rank('cli'), ri=rank('ini'), rf=rank('fin'), posC=rc.indexOf(san)+1, posF=rf.indexOf(san)+1;
+  var h=headline(posF<posC?'O Santander é '+posC+'º em base de clientes, mas '+posF+'º em consideração para financiar: o financiamento atrai além da base atual.':'O Santander é '+posC+'º em base de clientes e '+posF+'º em consideração para financiar neste recorte.');
+  h+=kpis([kp('Já é cliente Santander',fmtPctN(san.cli),'n conhecido = '+san.cli.n),kp('Consideraria relacionamento',fmtPctN(san.ini),'n = '+san.ini.n),kp('Consideraria financiar',fmtPctN(san.fin),'com o Santander · n = '+san.fin.n),kp('Não clientes abertos a financiar',m.ncFin.pct==null?'—':pct(m.ncFin.pct),m.ncFin.k+' de '+m.ncFin.n+' não clientes','accent')]);
+  h+='<div class="grid">';
+  [['cli','Já é cliente',rc,posC],['ini','Consideraria iniciar relacionamento',ri,ri.indexOf(san)+1],['fin','Consideraria financiar um carro',rf,posF]].forEach(function(cfg){
+    h+=card('c4',cfg[1],'% entre quem respondeu sobre cada instituição · Santander em '+cfg[3]+'º',null,chartDiv('iB_'+cfg[0],0,function(){ hbar('iB_'+cfg[0],cfg[2].map(function(b){return {key:b.key,label:b.label,value:b[cfg[0]].pct,n:b[cfg[0]].n,tip:b.label+' · '+cfg[1]+': '+pct(b[cfg[0]].pct)+' · n conhecido = '+b[cfg[0]].n};}),{max:100,sub:function(d){return 'n = '+d.n;},color:function(d){return d.key==='Santander'?RED:GREY;}}); }));
+  });
+  h+='</div><p class="note" style="margin-top:8px">Os três indicadores são independentes; cada um usa o próprio n conhecido por instituição.</p>';
+  // Quem são os não clientes com potencial
+  var ci=C.bank['Santander'].cli, fi=C.bank['Santander'].fin;
+  var pot=ROWS.filter(function(r){ return num(r,ci)===0 && num(r,fi)===1; }), rest=ROWS.filter(function(r){ return pot.indexOf(r)<0; });
+  var cli=ROWS.filter(function(r){return num(r,ci)===1;}), nc=ROWS.filter(function(r){return num(r,ci)===0;});
+  function prof(rows){ return [
+    mean(rows,C.ida).n?mean(rows,C.ida).mean:null,
+    share(rows,C.possui,function(x){return x===1;}).pct,
+    pAlta(rows,'Substituir meu carro atual').pct,
+    pm(rows,'Financiar um carro').n?pm(rows,'Financiar um carro').mean:null,
+    rendaAbove5(rows),
+    evAlta(rows).pct ]; }
+  var labels=[['IDA médio','0–100',function(x){return fx(x);}],['Possui carro','%',function(x){return pct(x);}],['Alta intenção de troca','% substituir ≥ 75',function(x){return pct(x);}],['Propensão a financiar','score',function(x){return fx(x);}],['Renda acima de 5 SM','% de quem informou',function(x){return pct(x);}],['Readiness EV alta','%',function(x){return pct(x);}]];
+  var pA=prof(pot), pB=prof(rest);
+  h+=sec('Quem são os não clientes com potencial?')+'<div class="grid">';
+  h+='<div class="card c5 callout"><div class="eyebrow">Não cliente + consideraria financiar</div><div class="big">'+pot.length+'</div><p>respondentes ('+pct(m.ncFin.pct)+' dos não clientes com informação).</p>'
+    +'<div class="facts"><div><span>Faixa etária</span><b>'+topLabel(pot,'idade',AGES)+'</b></div><div><span>Região</span><b>'+topLabel(pot,'regiao',REGIONS)+'</b></div><div><span>Renda</span><b>'+topLabel(pot,'renda',ORD.renda,['Prefiro não informar'])+'</b></div><div><span>Faixa IDA</span><b>'+topLabel(pot,'faixaIda',ORD.ida,['Sem informação'])+'</b></div></div>'+smallWarn(pot.length)+'</div>';
+  h+='<div class="card c7"><div class="card-h"><div><h3>Existe oportunidade, e sabemos em quais perfis ela se concentra</h3><p class="sub">Não clientes com potencial × demais respondentes · destaque no maior valor (diferença ≥ 10)</p></div></div>'
+    +ctable([{l:'Não clientes c/ potencial',n:pot.length},{l:'Demais',n:rest.length}],labels.map(function(l,i){ return {l:l[0],hint:l[1],fmt:l[2],vals:[pA[i],pB[i]]}; }))+'</div>';
+  h+='</div>';
+  // Clientes × não clientes
+  var cA=prof(cli), cB=prof(nc), dA=digShare(cli), dB=digShare(nc);
+  var cl2=labels.map(function(l,i){ return {l:l[0],hint:l[1],fmt:l[2],vals:[cA[i],cB[i]]}; }).concat([{l:'Jornada digital autônoma',hint:'% médio IA/app sozinho por etapa',fmt:function(x){return pct(x);},vals:[dA,dB]}]);
+  h+=sec('Clientes × não clientes')+'<div class="grid"><div class="card c7"><div class="card-h"><div><h3>A proposta deveria mudar conforme o relacionamento atual?</h3><p class="sub">Clientes Santander × não clientes (com informação)</p></div></div>'+ctable([{l:'Cliente Santander',n:cli.length},{l:'Não cliente',n:nc.length}],cl2)+'</div>';
+  var segItems=m.seg.items.map(function(i){ return Object.assign({},i,{label:i.label.replace('Cliente atual','Cliente')}); });
+  h+=card('c5','Segmentação Santander','% entre quem tem informação · “não marcou financiamento” não é recusa',m.seg.n,chartDiv('iSeg',0,function(){ hbar('iSeg',segItems,{max:100,color:function(d){return d.key==='Não cliente + consideraria financiar'?RED:d.key.indexOf('consideraria')>0?RED2:GREY;}}); }));
+  h+='</div>';
+  var finC=cA[3], finN=cB[3];
+  h+=impl(['Santander: '+pct(san.cli.pct)+' clientes e '+pct(san.fin.pct)+' considerariam financiar; '+pot.length+' não clientes com potencial identificados.',
+    (finC!=null&&finN!=null&&Math.abs(finC-finN)>=10?'Clientes têm propensão a financiar '+(finC>finN?'maior':'menor')+' que não clientes ('+fx(finC)+' × '+fx(finN)+'): ':'')+'o financiamento alcança quem ainda não é correntista, e o perfil desse grupo orienta onde concentrar a oferta.',
+    'Tratar o financiamento como <b>porta de entrada</b>: para não clientes, oferta com benefícios de relacionamento; para clientes, condições por relacionamento e renovação.']);
+  return h;
+};
+function rendaAbove5(rows){ var k=0,n=0; rows.forEach(function(r){ var x=v(r,C.renda); if(!x||x==='Prefiro não informar') return; n++; if(RENDA_IDX[x]>=75) k++; }); return n?k/n*100:null; }
+
+/* ---------- 9. Veículos Elétricos ---------- */
+R.ev=function(m){
+  var rd=dist(ROWS,C.ev,ORD.ev,['Sem informação']), rec=dist(ROWS,C.recarga,null,['Não sei informar']);
+  var g=function(d,k){ var it=d.items.filter(function(i){return i.key===k;})[0]; return it?it.pct:0; };
+  var alta=g(rd,'Alta'), inc=g(rd,'Incerteza'), low=g(rd,'Baixa');
+  var recOk=rec.items.filter(function(i){return i.key.indexOf('possível instalar um')>=0||i.key.indexOf('Já existe')===0;}).reduce(function(a,i){return a+i.pct;},0);
+  var recNo=rec.items.filter(function(i){return i.key==='Não possuo vaga de garagem'||i.key.indexOf('não seria possível')>=0;}).reduce(function(a,i){return a+i.pct;},0);
+  var bar0=m.evBar[0], cond=(alta+inc)>low*3&&bar0&&bar0.value>=50;
+  var h=headline(cond?'Existe intenção potencial: o que impede a adoção são <b>condições</b> (recarga, bateria, revenda e custo), não a falta de interesse.':'No recorte, a rejeição explícita ao elétrico é relevante: entender os motivos vem antes da oferta.');
+  h+=kpis([kp('Readiness EV alta',pct(alta),'n = '+rd.n,'green'),kp('Em incerteza',pct(inc),'interesse sem todas as condições'),kp('Recusam EV explicitamente',pct(low),'Readiness baixa'),kp('Recarga em casa viável',pct(recOk),'já tem ou pode instalar · n = '+rec.n)]);
+  // Interesse / Condições / Barreiras
+  h+=sec('Interesse · Condições · Barreiras')+'<div class="grid">';
+  h+=card('c4','Interesse: a maioria não rejeita o elétrico','Readiness EV · indicador ordinal, não é probabilidade de compra',rd.n,chartDiv('eRd',0,function(){ donut('eRd',rd.items,[GREEN,'#B8B8B8','#3A3A3A'],pct(alta)); }));
+  var dimOpt=state.opt.evBy||'renda'; state.opt.evBy=dimOpt;
+  var D={renda:[C.renda,ORD.renda],regiao:[C.regiao,REGIONS],idade:[C.idade,AGES],recarga:[C.recarga,null],ida:[C.faixaIda,ORD.ida]}[dimOpt];
+  var groups=(D[1]||Object.keys(ROWS.reduce(function(a,r){ var x=v(r,D[0]); if(x&&x!=='Não sei informar') a[x]=1; return a; },{}))).map(function(k){ var rr=ROWS.filter(function(r){return v(r,D[0])===k;}); var s=evAlta(rr), u=shareCat(rr,C.ev,'Incerteza',['Sem informação']); return {key:k,label:sh(k),value:s.pct,inc:u.pct,n:s.n}; }).filter(function(x){return x.n>0;});
+  var gOk=groups.filter(function(x){return x.n>=8;}).sort(function(a,b){return b.value-a.value;});
+  var Q={renda:'Capacidade financeira parece diferenciar a abertura?',regiao:'Território e infraestrutura parecem estar associados à prontidão?',idade:'Existem diferenças entre as faixas da Geração X?',recarga:'A recarga residencial está associada a maior readiness?',ida:'Quem depende mais do carro tem maior ou menor abertura?'}[dimOpt];
+  var ordered=groups.filter(function(x){return x.n>=8&&x.key!=='Prefiro não informar'&&x.key!=='Sem informação';}), mono=ordered.length>2&&(ordered.every(function(x,i){return !i||x.value>=ordered[i-1].value;})||ordered.every(function(x,i){return !i||x.value<=ordered[i-1].value;}));
+  var diffTxt=gOk.length>1&&gOk[0].value-gOk[gOk.length-1].value>=15?'Readiness alta é maior em '+gOk[0].label+' ('+pct(gOk[0].value)+') do que em '+gOk[gOk.length-1].label+' ('+pct(gOk[gOk.length-1].value)+')'+((dimOpt==='renda'||dimOpt==='idade'||dimOpt==='ida')&&!mono?', mas sem padrão linear entre os grupos: a diferença não acompanha a ordem das faixas.':'.'):'Sem diferença clara entre os grupos com n ≥ 8.';
+  h+='<div class="card c8"><div class="card-h"><div><h3>Condições: quem apresenta maior prontidão?</h3><p class="sub">'+Q+' · % com Readiness alta · à direita, % em incerteza</p></div>'+seg('evBy',[['renda','Renda'],['regiao','Região'],['idade','Idade'],['recarga','Recarga'],['ida','IDA']])+'</div>'
+    +chartDiv('eBy',0,function(){ hbar('eBy',groups.map(function(x){return Object.assign({},x,{tip:x.label+': '+pct(x.value)+' alta · '+pct(x.inc)+' incerteza · n = '+x.n});}),{max:100,sub:function(d){return pct(d.inc)+' inc. · n='+d.n;},color:function(d){return gOk.length&&d.key===gOk[0].key?GREEN:GREEN2;}}); })
+    +'<p class="read-line">'+diffTxt+' Grupos com n < 8 não entram na comparação.</p></div>';
+  var bars=m.evBar.concat([{key:'semrec',label:'Sem possibilidade de recarga em casa',value:recNo,n:rec.n,tip:'Sem vaga ou instalação inviável: '+pct(recNo)+' · n = '+rec.n}]).sort(function(a,b){return b.value-a.value;});
+  h+=card('c6','Barreiras: '+(bar0?lc(bar0.label)+' lidera':'o que impede'),'% que concorda · recarga em casa usa o próprio n · preço não foi medido diretamente',m.evBar.length?m.evBar[0].n:0,chartDiv('eBar',0,function(){ hbar('eBar',bars,{max:100,color:function(d){return d===bars[0]?'#3A3A3A':'#8A8A8A';}}); }));
+  h+=card('c6','Motivadores: o que aumentaria o interesse','% que concorda',m.evMot.length?m.evMot[0].n:0,chartDiv('eMot',0,function(){ hbar('eMot',m.evMot,{max:100,color:function(d){return d===m.evMot[0]?GREEN:GREEN2;}}); }));
+  h+='</div>';
+  // Modelo de acesso entre abertos
+  var open=ROWS.filter(function(r){ var e=v(r,C.ev); return e==='Alta'||e==='Incerteza'; });
+  var acO=multi(open,C.evAcesso,MS.evAcesso.filter(function(x){return ['Ainda não sei','Não consideraria'].indexOf(x[0])<0;}));
+  var solKeys=[['Condições especiais para financiamento','Financiamento do carro'],['Poder financiar','Carregador no financiamento'],['Avaliação técnica','Instalação/avaliação elétrica'],['Seguro incluído','Seguro'],['Créditos ou descontos para recarga','Créditos de recarga'],['Cashback','Benefícios/cashback']];
+  var pk=multi(open,C.evSol,solKeys);
+  var combo=0,nn=0; open.forEach(function(r){ var x=v(r,C.evSol); if(!x) return; nn++; var c=solKeys.filter(function(s){return x.indexOf(s[0])>=0;}).length; if(c>=2) combo++; });
+  var comboP=nn?combo/nn*100:0;
+  h+=sec('Oportunidade financeira entre quem já tem abertura (Readiness alta ou incerteza)')+'<div class="grid">';
+  h+=card('c6',acO.items[0]?acO.items[0].label+' é a forma de acesso mais compatível com quem tem abertura':'Forma de acesso','% entre Readiness alta ou incerteza · múltipla escolha',acO.n,chartDiv('eAc',0,function(){ hbar('eAc',acO.items,{color:function(d){return d===acO.items[0]?GREEN:GREEN2;}}); }));
+  h+='<div class="card c6"><div class="card-h"><div><h3>O pacote que reduz fricção na adoção do EV</h3><p class="sub">% entre Readiness alta ou incerteza que marcam cada componente · múltipla escolha</p>'+smallWarn(pk.n)+'</div><span class="ntag">n = '+pk.n+'</span></div>'
+    +'<div class="pack">'+pk.items.map(function(i,ix){ return (ix?'<i>+</i>':'')+'<span>'+i.label+'<b>'+pct(i.pct)+'</b></span>'; }).join('')+'</div>'
+    +'<div class="ibox one"><div><span>Solução integrada</span><p><b>'+pct(comboP)+'</b> marcam dois ou mais componentes do pacote.'+(comboP>=30?' Para esses perfis, uma solução integrada pode ser mais relevante do que financiar apenas o veículo.':'')+'</p></div></div></div>';
+  h+='</div>';
+  h+=impl([pct(alta)+' com Readiness alta e '+pct(inc)+' em incerteza; só '+pct(low)+' recusam. '+(bar0?uc(lc(bar0.label))+' preocupa '+pct(bar0.value)+'.':''),
+    cond?'O freio parece ser de condições (financeiras, informacionais e de infraestrutura), e não de falta de interesse: a incerteza supera em muito a recusa.':'A rejeição é relevante no recorte; o interesse precisa ser construído antes da oferta.',
+    'Oferecer <b>EV + carregador + instalação + seguro</b> no mesmo financiamento para quem já tem abertura, com conteúdo sobre bateria e revenda.']);
+  return h;
+};
+
+/* ---------- 10. Insights e Recomendações ---------- */
+R.insights=function(m){
+  var j=journey(m), S=segStats(ROWS);
+  var fA=pm(onlyCat(ROWS,'faixaIda','Alta'),'Financiar um carro'), fL=pm(onlyCat(ROWS,'faixaIda','Baixa'),'Financiar um carro');
+  var own=ROWS.filter(function(r){return num(r,C.possui)===1;}), non=ROWS.filter(function(r){return num(r,C.possui)===0;});
+  var fr=groupMean(ROWS,C.renda,C.prop['Financiar um carro'],ORD.renda).filter(function(g){return g.n>=8;}).sort(function(a,b){return b.value-a.value;});
+  var dv=desejoViab(ROWS), gap=(m.usa.pct||0)-(m.possui.pct||0);
+  var F=[];
+  if(gap>=10) F.push({t:'Acesso não é propriedade',e:pct(m.usa.pct)+' usam carro × '+pct(m.possui.pct)+' possuem',l:'Parte do público depende do carro sem ser dono.',i:'Abrir espaço para assinatura, aluguel e primeira compra.'});
+  if(fA.n&&fL.n&&fA.mean-fL.mean>=10) F.push({t:'Dependência e financiamento',e:'score '+fx(fA.mean)+' (IDA alto) × '+fx(fL.mean)+' (IDA baixo)',l:'Maior dependência está associada a maior propensão a financiar.',i:'Financiamento como manutenção da mobilidade.'});
+  if(fr.length>1&&fr[0].value-fr[fr.length-1].value>=15) F.push({t:'Renda muda o papel do crédito',e:fr[0].label+' '+fx(fr[0].value)+' × '+fr[fr.length-1].label+' '+fx(fr[fr.length-1].value),l:'Nas rendas menores, o crédito parece viabilizar a aquisição.',i:'Condições por faixa de renda, não oferta única.'});
+  var fN=avgFlex(non), fO=avgFlex(own);
+  if(fN!=null&&fO!=null&&fN-fO>=10) F.push({t:'Não proprietários querem flexibilidade',e:'assinatura/aluguel '+fx(fN)+' × '+fx(fO),l:'Quem não tem carro considera mais o acesso sem propriedade.',i:'Assinatura e aluguel como porta de entrada.'});
+  F.push({t:'Desejo × viabilidade',e:pct(dv.p[1])+' oportunidade imediata · '+pct(dv.p[3])+' limitados por condição',l:'Parte de quem quer financiar declara capacidade menor.',i:'Prazo, entrada e custo total claros para destravar.'});
+  if(j.hybrid) F.push({t:'Jornada híbrida',e:pct(j.humI)+' → '+pct(j.humC)+' preferem apoio humano',l:'O apoio humano cresce com a complexidade da etapa.',i:'Orquestrar digital e humano.'});
+  F.push({t:'Não clientes com potencial',e:pct(m.ncFin.pct)+' dos não clientes ('+m.ncFin.k+' de '+m.ncFin.n+')',l:'O financiamento alcança quem não é correntista.',i:'Crédito como porta de entrada no ecossistema.'});
+  F.push({t:'EV: interesse com barreiras',e:pct(m.evAlta.pct)+' Readiness alta',l:'O freio é de condições, mais que de interesse.',i:'Pacote EV integrado.',g:1});
+  var h=headline('Os cruzamentos mostram <b>por que perfis diferentes tomam decisões diferentes de mobilidade</b>, e onde o Santander pode entrar com financiamento, relacionamento, serviços e experiência.');
+  h+=sec('O que descobrimos')+'<div class="find">'+F.slice(0,8).map(function(a){ return '<div class="card fcard'+(a.g?' green':'')+'"><h4>'+a.t+'</h4><div class="ev">'+a.e+'</div><p>'+a.l+'</p></div>'; }).join('')+'</div>';
+  h+=sec('O que isso significa')+'<div class="card"><div class="pairs">'+F.slice(0,8).map(function(a){ return '<div class="pair"><div class="pa">'+a.t+'</div><div class="arrow" aria-hidden="true">→</div><div class="pb">'+a.i+'</div></div>'; }).join('')+'</div></div>';
+  h+=sec('Quem é o público · segmentos comportamentais (calculados, podem se sobrepor)')+'<div class="segs">'+S.map(function(x){ return '<div class="card segc'+(x.s.id==='ev'?' green':'')+'"><h4>'+x.s.t+'</h4><div class="big">'+pct(x.pct)+'<small>'+x.n+' de '+ROWS.length+'</small></div><p class="sub">'+x.s.rule+'</p><div class="facts sm"><div><span>Renda</span><b>'+topLabel(x.rows,'renda',ORD.renda,['Prefiro não informar'])+'</b></div><div><span>Região</span><b>'+topLabel(x.rows,'regiao',REGIONS)+'</b></div></div>'+smallWarn(x.n)+'</div>'; }).join('')+'</div>';
+  h+=sec('O que o Santander deve fazer')+'<div class="recs">'+S.map(function(x){ return '<div class="card rec"><h4>'+x.s.t+'</h4><dl><dt>Quem?</dt><dd>'+x.s.rule+' ('+x.n+' resp.)</dd><dt>Por quê?</dt><dd>'+uc(x.s.why)+'.</dd><dt>O quê?</dt><dd>'+uc(x.s.what)+'.</dd><dt>Quando?</dt><dd>'+uc(x.s.when)+'.</dd><dt>Onde?</dt><dd>'+uc(x.s.where)+'.</dd></dl></div>'; }).join('')+'</div>';
+  var nbaA=ROWS.filter(function(r){ var p=num(r,C.prop['Substituir meu carro atual']), ia=v(r,C.faixaIda), age=num(r,C.idadeVeic); return p!=null&&p>=75&&(ia==='Alta'||(age!=null&&age>=7)); }).length;
+  var nbaB=ROWS.filter(function(r){ var p=num(r,C.prop['Financiar um carro']), cl=num(r,C.bank['Santander'].cli); return p!=null&&p>=75&&cl===0; }).length;
+  var nbaC=ROWS.filter(function(r){ return v(r,C.ev)==='Alta'; }).length;
+  var nbaD=ROWS.filter(function(r){ return /remoto|concessionária|agência|Digital, com suporte/.test(v(r,C.stage['Negociar'])); }).length;
+  h+=sec('Next Best Mobility Action · proposta de evolução')+'<div class="card"><div class="flow"><span>Perfil</span><i>+</i><span>Comportamento</span><i>+</i><span>Momento</span><i>→</i><span class="on">Próxima melhor ação</span></div>'
+    +'<div class="rules four">'+rule(nbaA,'Alto IDA ou carro antigo + intenção de troca','simulação de renovação.')+rule(nbaB,'Não cliente + alta propensão a financiar','financiamento + benefícios de relacionamento.')+rule(nbaC,'Readiness EV alta','EV + carregador + instalação + seguro.')+rule(nbaD,'Prefere humano na negociação','migrar do digital para especialista no momento certo.')+'</div>'
+    +'<p class="note">Proposta conceitual, ainda não implementada; a IA não aprova crédito. Números = respondentes do recorte em cada regra (ilustrativo). Exige consentimento (LGPD) e validação com dados reais.</p></div>';
+  h+=sec('Como medir')+'<div class="kgrid">'+[['Aquisição','% de não clientes convertidos'],['Financiamento','taxa de simulação → contratação'],['Renovação','taxa de recompra/troca'],['Relacionamento','% de clientes com segundo produto'],['EV','simulação EV → contratação'],['Jornada','abandono por etapa'],['Confiança','NPS / satisfação no pós-venda']].map(function(k){ return '<div><span>'+k[0]+'</span><b>'+k[1]+'</b></div>'; }).join('')+'</div>';
+  var hypo=[m.finP.mean>=40, j.hybrid, m.trust.slice(0,3).some(function(t){return /Clareza|Transparência|Cumprimento|Segurança/.test(t.key);}), m.ncFin.pct>=30, (m.usa.pct||0)>=60];
+  var ok=hypo.filter(Boolean).length, verdict=ok>=4?'sustentada pelo recorte':ok>=2?'parcialmente sustentada':'não sustentada no recorte';
+  h+='<div class="verdict"><div class="lab">Hipótese '+verdict+'</div><p><b>'+ok+' de 5 sinais confirmam:</b> o Santander pode aumentar sua relevância com a Geração X tratando o financiamento como parte de uma jornada de mobilidade e de relacionamento de longo prazo, com experiência digital, apoio humano nos momentos complexos, transparência financeira e soluções do ecossistema automotivo.</p></div>';
+  return h;
+};
+function rule(n,t,d){ return '<div class="rule"><div class="cnt">'+n+'</div><div class="t"><b>'+t+'</b>→ '+d+'</div></div>'; }
+
+/* ================= RENDER ================= */
+function buildNav(){
+  document.getElementById('nav').innerHTML=PAGES.map(function(p,i){ return '<button title="'+p.t+'" data-p="'+p.id+'" class="'+(state.page===p.id?'on':'')+'">'+ico(p.id)+'<span>'+p.t+'</span></button>'; }).join('');
+}
+function buildFilters(){
+  var el=document.getElementById('filters'), open=el.classList.contains('open');
+  var sel=FILTERS.map(function(f){
+    var vals={}; VALID.forEach(function(r){ var x=fval(r,f); if(x) vals[x]=1; });
+    var keys=Object.keys(vals); if(f.ord){ keys=f.ord.filter(function(k){return vals[k];}).concat(keys.filter(function(k){return f.ord.indexOf(k)<0;})); } else keys.sort();
+    return '<div class="f"><label for="f_'+f.id+'">'+f.l+'</label><select id="f_'+f.id+'" data-f="'+f.id+'" class="'+(state.f[f.id]?'set':'')+'"><option value="">Todos</option>'+keys.map(function(k){ return '<option value="'+esc(k)+'"'+(state.f[f.id]===k?' selected':'')+'>'+esc(sh(k))+'</option>'; }).join('')+'</select></div>';
+  }).join('');
+  var keysA=Object.keys(state.f), nAct=keysA.length;
+  var chips=keysA.map(function(k){ var f=FILTERS.filter(function(x){return x.id===k;})[0]; return '<span class="tag">'+f.l+': '+esc(sh(state.f[k]))+'<button data-rm="'+k+'" aria-label="Remover filtro '+esc(f.l)+'">×</button></span>'; }).join('');
+  el.innerHTML='<div class="fbar"><button class="btn ghost sm" id="fToggle" aria-expanded="'+open+'" aria-controls="fpanel"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>Filtros'+(nAct?' · '+nAct:'')+'</button><div class="chips">'+(nAct?chips:'<span class="muted">Nenhum filtro ativo · todas as respostas válidas</span>')+'</div><button class="lnk" id="clearF"'+(nAct?'':' disabled')+'>Limpar filtros</button></div><div class="fpanel" id="fpanel">'+sel+'</div>';
+  el.classList.toggle('open',open);
+  var act=el.querySelector('.fbar'); if(act&&window.__btns){ var w=document.createElement('div'); w.className='fbar-act'; window.__btns.forEach(function(b){ w.appendChild(b); }); act.appendChild(w); }
+  var bt=document.getElementById('baseTxt'); if(bt) bt.textContent='n = '+ROWS.length+(nAct?' de '+VALID.length:'');
+  var bn=document.getElementById('banner');
+  if(nAct && ROWS.length>0 && ROWS.length<30){ bn.textContent='Base pequena (n = '+ROWS.length+') — resultados indicativos.'; bn.classList.add('show'); }
+  else bn.classList.remove('show');
+}
+function renderPage(){
+  var tp=document.querySelector('.top'); if(tp) tp.style.display=state.page==='visao-geral'?'':'none';
+  CLICKS={}; chartQueue=[];
+  var p=PAGES.filter(function(x){return x.id===state.page;})[0], idx=PAGES.indexOf(p)+1;
+  var m=metrics(ROWS);
+  var body=ROWS.length?R[p.id](m):'<div class="card empty-state"><h3>Não há respostas suficientes para este recorte.</h3><p class="sub">Remova um filtro para ver os resultados.</p><button class="btn sm" id="clearF2">Limpar filtros</button></div>';
+  document.getElementById('page').innerHTML='<div class="page-head"><div><p class="q"><span class="n">'+idx+' / 10</span>'+p.t+'</p><h2>'+p.q+'</h2></div></div>'+body;
+  chartQueue.forEach(function(q){ try{ q.fn(); }catch(e){ console.error(e); } });
+}
+function renderAll(){ applyFilters(); buildNav(); buildFilters(); renderPage(); }
+
+/* ================= LOAD ================= */
+function ingest(d){
+  DATA=d; HN=d.headers.map(norm); mapCols();
+  ALL=d.rows.filter(function(r){ return norm(r[0])!==''; });
+  VALID=ALL.filter(function(r){ return num(r,C.valida)===1; });
+  var last=ALL.map(function(r){return norm(r[0]);}).sort(function(a,b){ return toDate(b)-toDate(a); })[0]||'';
+  document.getElementById('updTxt').textContent=d.updated||'—';
+  var rb=document.getElementById('refreshBtn'); if(rb){ rb.title='Atualizar dados · última atualização: '+(d.updated||'—')+(d.live?'':' (prévia)'); rb.setAttribute('aria-label',rb.title); }
+  var chip=document.getElementById('syncChip');
+  if(d.live){ chip.classList.remove('warn'); document.getElementById('syncTxt').innerHTML='Dados sincronizados <small>· Google Sheets</small>'; }
+  else { chip.classList.add('warn'); document.getElementById('syncTxt').innerHTML='Prévia <small>· dados até '+esc(last.slice(0,10))+'</small>'; }
+  chip.title='Última resposta recebida: '+last;
+  renderAll();
+}
+function toDate(s){ var m=/(\d{2})\/(\d{2})\/(\d{4})\s*(\d{2})?:?(\d{2})?/.exec(s); return m?new Date(+m[3],+m[2]-1,+m[1],+(m[4]||0),+(m[5]||0)).getTime():0; }
+function load(manual){
+  var btn=document.getElementById('refreshBtn');
+  if(IS_GAS){
+    btn.classList.add('spin');
+    google.script.run.withSuccessHandler(function(d){ btn.classList.remove('spin'); ingest(d); if(manual) toast('Dados atualizados'); })
+      .withFailureHandler(function(e){ btn.classList.remove('spin'); var chip=document.getElementById('syncChip'); chip.classList.add('warn'); document.getElementById('syncTxt').textContent='Erro de sincronização'; toast('Não foi possível ler a planilha: '+(e&&e.message||e)); if(window.SNAPSHOT&&!DATA) ingest(window.SNAPSHOT); }).getData();
+  } else if(window.DATA_URL){
+    if(/COLE_AQUI/.test(window.DATA_URL)){ document.getElementById('page').innerHTML='<div class="loading">Configure o link de dados: no index.html, procure COLE_AQUI e cole o link do CSV publicado ou do /exec.</div>'; return; }
+    btn.classList.add('spin');
+    var u=window.DATA_URL+(window.DATA_URL.indexOf('?')>=0?'&':'?')+'_='+Date.now();
+    fetch(u,{redirect:'follow'}).then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); }).then(function(t){
+      var d; var tt=t.replace(/^\uFEFF/,'').trim();
+      if(tt.charAt(0)==='{'){ d=JSON.parse(tt); }
+      else { var rows=parseCSV(tt); d={headers:rows[0],rows:rows.slice(1),source:'Google Sheets'}; }
+      var now=new Date(); d.updated=('0'+now.getDate()).slice(-2)+'/'+('0'+(now.getMonth()+1)).slice(-2)+'/'+now.getFullYear()+' às '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2); d.live=true;
+      btn.classList.remove('spin'); ingest(d); if(manual) toast('Dados atualizados');
+    }).catch(function(e){ btn.classList.remove('spin'); toast('Erro de sincronização: '+(e&&e.message||e)); if(!DATA) document.getElementById('page').innerHTML='<div class="loading">Erro de sincronização. Confira se o link de dados está publicado e acessível.</div>'; });
+  } else if(window.SNAPSHOT){ ingest(window.SNAPSHOT); if(manual) toast('Esta é a prévia. O link do Apps Script atualiza sozinho.'); }
+  else document.getElementById('page').innerHTML='<div class="loading">Sem conexão com a planilha.</div>';
+}
+
+function parseCSV(t){
+  var rows=[],row=[],f='',q=false;
+  for(var i=0;i<t.length;i++){ var c=t[i];
+    if(q){ if(c==='"'){ if(t[i+1]==='"'){ f+='"'; i++; } else q=false; } else f+=c; }
+    else if(c==='"') q=true; else if(c===','){ row.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; row.push(f); rows.push(row); row=[]; f=''; } else f+=c; }
+  if(f!==''||row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+/* ================= EVENTS ================= */
+
+var tipEl=document.getElementById('tip');
+document.addEventListener('mouseover',function(e){ var t=e.target.closest('[data-tip]'); if(!t){ tipEl.classList.remove('on'); return; } tipEl.textContent=t.getAttribute('data-tip'); tipEl.classList.add('on'); });
+document.addEventListener('mousemove',function(e){ if(!tipEl.classList.contains('on')) return; var x=e.clientX+14, y=e.clientY+14, w=tipEl.offsetWidth, h=tipEl.offsetHeight; if(x+w>innerWidth-8) x=e.clientX-w-14; if(y+h>innerHeight-8) y=e.clientY-h-14; tipEl.style.left=Math.max(8,x)+'px'; tipEl.style.top=Math.max(8,y)+'px'; });
+document.addEventListener('scroll',function(){ tipEl.classList.remove('on'); },true);
+function toast(t){ var el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(function(){el.classList.remove('show');},2600); }
+document.addEventListener('click',function(e){
+  var kc=e.target.closest('[data-ck]'); if(kc){ var f=CLICKS[kc.getAttribute('data-ck')]; if(f){ tipEl.classList.remove('on'); f(); } return; }
+  var b=e.target.closest('[data-p]'); if(b){ state.page=b.getAttribute('data-p'); try{ history.replaceState(null,'','#'+state.page); }catch(_){} buildNav(); renderPage(); document.getElementById('side').classList.remove('open'); window.scrollTo({top:0,behavior:'smooth'}); return; }
+  var rm=e.target.closest('[data-rm]'); if(rm){ delete state.f[rm.getAttribute('data-rm')]; renderAll(); return; }
+  var sg=e.target.closest('.seg button'); if(sg){ state.opt[sg.parentNode.getAttribute('data-seg')]=sg.getAttribute('data-v'); renderPage(); return; }
+  if(e.target.closest('#clearF2')){ state.f={}; renderAll(); return; }
+  if(e.target.closest('#clearF')){ if(!Object.keys(state.f).length) return; state.f={}; renderAll(); toast('Filtros limpos'); return; }
+  if(e.target.closest('#fToggle')){ var fe=document.getElementById('filters'); fe.classList.toggle('open'); e.target.closest('#fToggle').setAttribute('aria-expanded',fe.classList.contains('open')); return; }
+  if(e.target.closest('#collapseBtn')){ toggleMini(); return; }
+  if(e.target.closest('#menuBtn')){ document.getElementById('side').classList.toggle('open'); return; }
+  if(e.target.closest('#refreshBtn')){ load(true); return; }
+  if(e.target.closest('#shareBtn')){ openShare(); return; }
+  if(e.target.closest('#closeModal')){ document.getElementById('modal').classList.remove('show'); return; }
+  if(e.target.closest('#copyModal')){ copy(document.getElementById('shareInput').value); return; }
+  if(e.target.id==='modal') document.getElementById('modal').classList.remove('show');
+});
+document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-ck]')){ e.preventDefault(); e.target.click(); } });
+document.addEventListener('change',function(e){ var s=e.target.closest('select[data-f]'); if(s){ var id=s.getAttribute('data-f'); if(s.value) state.f[id]=s.value; else delete state.f[id]; renderAll(); } });
+function shareUrl(){ return (window.APP_URL && window.APP_URL.indexOf('http')===0) ? window.APP_URL : window.location.href; }
+function copy(u){ try{ navigator.clipboard.writeText(u).then(function(){ toast('Link copiado'); document.getElementById('modal').classList.remove('show'); },function(){ var i=document.getElementById('shareInput'); i.select(); toast('Selecione e copie o link'); }); }catch(err){ var i=document.getElementById('shareInput'); i.select(); toast('Selecione e copie o link'); } }
+function openShare(){ var u=shareUrl(); document.getElementById('shareInput').value=u; var t=document.querySelector('#modal p'); if(!IS_GAS){ t.textContent='Esta é a prévia com os dados enviados. A versão ao vivo, que atualiza sozinha, é o link /exec do Apps Script.'; } document.getElementById('modal').classList.add('show'); }
+function resizeCharts(){}
+function toggleMini(force){ var sd=document.getElementById('side'); var on=force!=null?force:!sd.classList.contains('mini'); sd.classList.toggle('mini',on); var b=document.getElementById('collapseBtn'); b.title=on?'Expandir menu':'Recolher menu'; b.setAttribute('aria-label',b.title); b.querySelector('span').textContent=on?'Expandir menu':'Recolher menu'; try{ localStorage.setItem('gx_mini',on?'1':'0'); }catch(_){} setTimeout(resizeCharts,260); }
+try{ if(localStorage.getItem('gx_mini')==='1') toggleMini(true); }catch(_){}
+document.getElementById('side').addEventListener('transitionend',function(e){ if(e.propertyName==='width') resizeCharts(); });
+
+window.__btns=[document.getElementById('refreshBtn'),document.getElementById('shareBtn')];
+try{ var hp=(location.hash||'').replace('#',''); if(PAGES.some(function(p){return p.id===hp;})) state.page=hp; }catch(_){}
+load(false);
+if(IS_GAS||window.DATA_URL) setInterval(function(){ if(!document.hidden) load(false); }, REFRESH_MS);
+})();
+</script>
+</body>
+</html>
